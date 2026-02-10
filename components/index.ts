@@ -6,3 +6,4 @@ export * from './Header';
 export * from './Pill';
 export * from './PricingCard';
 export * from './Section';
+export * from './Motion';
