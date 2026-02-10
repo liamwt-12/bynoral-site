@@ -2,9 +2,11 @@ import { Container } from './Container';
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/70 bg-surface">
-      <Container className="py-8 text-sm text-text-muted">
-        <p>Commercially safe soundscapes. No ads. No vocals.</p>
+    <footer className="mt-20 border-t border-border/60 bg-white/55">
+      <Container className="py-10">
+        <p className="text-center text-sm tracking-[0.08em] text-text-muted">
+          Commercially safe soundscapes for modern spaces. No ads. No vocals.
+        </p>
       </Container>
     </footer>
   );
