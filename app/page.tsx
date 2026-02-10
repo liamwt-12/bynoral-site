@@ -74,7 +74,7 @@ const spaces = ['Cafés', 'Barbers', 'Pilates', 'Boutiques', 'Clinics', 'Co-work
 export default function Home() {
   return (
     <>
-      <Section className="relative overflow-hidden pb-12 pt-16 sm:pt-24 lg:pb-20 lg:pt-28" containerClassName="max-w-[84rem]">
+      <Section className="relative overflow-hidden pb-8 pt-14 sm:pt-20 lg:pb-16 lg:pt-24" containerClassName="max-w-[84rem]">
         <AnimatedBackground />
 
         <div className="space-y-10 lg:space-y-14">
@@ -135,11 +135,11 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="pt-2 sm:pt-4 lg:pt-6">
+      <Section className="pt-0 sm:pt-2 lg:pt-4">
         <TryVibeCard />
       </Section>
 
-      <Section className="pt-10 lg:pt-14">
+      <Section className="pt-8 lg:pt-12">
         <div className="space-y-8 lg:space-y-10">
           <h2 className="max-w-2xl text-3xl leading-tight sm:text-4xl">Why teams switch quickly</h2>
           <div className="grid gap-5 md:grid-cols-3">
@@ -280,22 +280,6 @@ export default function Home() {
         </Card>
       </Section>
 
-      <div className="fixed inset-x-3 bottom-3 z-40 md:hidden">
-        <div className="grid grid-cols-2 gap-2 rounded-2xl border border-border/70 bg-background/75 p-2 shadow-[0_10px_30px_rgba(19,30,27,0.18)] backdrop-blur-xl">
-          <Link
-            href="/player"
-            className="inline-flex items-center justify-center rounded-xl border border-accent/80 bg-accent px-3 py-2.5 text-sm font-semibold text-surface"
-          >
-            Start playing
-          </Link>
-          <Link
-            href="/pricing"
-            className="inline-flex items-center justify-center rounded-xl border border-border/80 bg-surface/85 px-3 py-2.5 text-sm font-medium text-text-primary"
-          >
-            Pricing
-          </Link>
-        </div>
-      </div>
     </>
   );
 }
