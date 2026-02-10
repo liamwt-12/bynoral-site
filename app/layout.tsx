@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={`${fraunces.variable} ${inter.variable} bg-background font-body text-text-primary antialiased`}>
         <div className="flex min-h-screen flex-col">
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="page-enter flex-1">{children}</main>
           <Footer />
         </div>
       </body>

@@ -14,7 +14,7 @@ export function Section({
   containerClassName = ''
 }: SectionProps) {
   return (
-    <section className={`py-16 sm:py-20 lg:py-24 ${className}`.trim()}>
+    <section className={`py-20 sm:py-24 lg:py-28 ${className}`.trim()}>
       <Container className={containerClassName}>{children}</Container>
     </section>
   );
