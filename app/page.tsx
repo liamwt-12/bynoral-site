@@ -1,27 +1,19 @@
 import Link from 'next/link';
 
-import { AnimatedBackground, Card, Marquee, Pill, PricingCard, Section } from '../components';
+import { AnimatedBackground, Card, Marquee, Pill, PricingCard, Section, TryVibeCard } from '../components';
 
-const problemPoints = [
+const quickPayoffCards = [
   {
-    icon: '↻',
-    title: 'Playlists repeat',
-    body: 'Playlists repeat — and staff change them every shift'
+    title: 'No playlist upkeep',
+    body: 'Your space stays consistent without daily staff decisions or repeated tracks.'
   },
   {
-    icon: '•',
-    title: 'Ads slip in',
-    body: 'Ads slip in at the worst moments'
+    title: 'Commercially safe by default',
+    body: 'Designed for business use, so licensing stress does not interrupt your day.'
   },
   {
-    icon: '≈',
-    title: 'Vibe drifts',
-    body: 'The vibe is inconsistent day to day'
-  },
-  {
-    icon: '✓',
-    title: 'Licensing risk',
-    body: 'Licensing is unclear and easy to get wrong'
+    title: 'Sound that adapts',
+    body: 'Choose a vibe and intensity in seconds, then let it run reliably in the background.'
   }
 ];
 
@@ -77,45 +69,43 @@ const plans = [
   }
 ];
 
-const livePreviewVibes = ['Still', 'Warmth', 'Focus'];
-
 const spaces = ['Cafés', 'Barbers', 'Pilates', 'Boutiques', 'Clinics', 'Co-working', 'Studios'];
 
 export default function Home() {
   return (
     <>
-      <Section className="relative overflow-hidden pb-14 pt-24 sm:pt-28 lg:pb-20 lg:pt-32" containerClassName="max-w-[84rem]">
+      <Section className="relative overflow-hidden pb-12 pt-16 sm:pt-24 lg:pb-20 lg:pt-28" containerClassName="max-w-[84rem]">
         <AnimatedBackground />
 
-        <div className="space-y-14 lg:space-y-16">
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,480px)] lg:gap-12">
-            <div className="space-y-8">
+        <div className="space-y-10 lg:space-y-14">
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(340px,430px)] lg:gap-12">
+            <div className="space-y-6 sm:space-y-7">
               <p className="hero-reveal text-xs uppercase tracking-[0.2em] text-text-muted">Commercial sound, simplified</p>
-              <h1 className="hero-reveal max-w-4xl font-heading text-5xl leading-[0.98] tracking-tight text-text-primary sm:text-6xl lg:text-[4.6rem]">
+              <h1 className="hero-reveal max-w-4xl font-heading text-4xl leading-[0.98] tracking-tight text-text-primary sm:text-6xl lg:text-[4.6rem]">
                 <span className="inline bg-gradient-to-r from-text-primary via-accent to-text-primary bg-clip-text text-transparent">
                   Sound
                 </span>{' '}
                 <span className="inline">designed for spaces.</span>
               </h1>
-              <p className="hero-reveal max-w-3xl text-lg leading-relaxed text-text-muted lg:text-xl">
+              <p className="hero-reveal max-w-3xl text-base leading-relaxed text-text-muted sm:text-lg lg:text-xl">
                 Calm, consistent background sound for cafés, studios and workspaces — without playlists, ads
                 or licensing stress.
               </p>
-              <div className="hero-reveal flex flex-wrap items-center gap-4 pt-2">
+              <div className="hero-reveal flex flex-wrap items-center gap-3 pt-1 sm:gap-4">
                 <Link
                   href="/player"
-                  className="hero-cta inline-flex items-center justify-center rounded-full border border-accent/70 bg-gradient-to-b from-accent to-accent/85 px-7 py-3.5 text-sm font-semibold text-surface shadow-[0_10px_30px_rgba(47,111,94,0.25)] transition duration-250 hover:-translate-y-0.5 hover:shadow-[0_14px_34px_rgba(47,111,94,0.36)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
+                  className="hero-cta inline-flex items-center justify-center rounded-full border border-accent/70 bg-gradient-to-b from-accent to-accent/85 px-6 py-3 text-sm font-semibold text-surface shadow-[0_10px_30px_rgba(47,111,94,0.25)] transition duration-250 hover:-translate-y-0.5 hover:shadow-[0_14px_34px_rgba(47,111,94,0.36)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
                 >
                   <span className="relative z-10">Start playing</span>
                 </Link>
                 <Link
                   href="/how-it-works"
-                  className="inline-flex items-center rounded-full border border-border/80 bg-surface/70 px-5 py-3 text-sm font-medium text-text-muted transition duration-250 hover:-translate-y-0.5 hover:border-accent/40 hover:text-text-primary focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-text-primary/15"
+                  className="inline-flex items-center rounded-full border border-border/80 bg-surface/70 px-4 py-2.5 text-sm font-medium text-text-muted transition duration-250 hover:-translate-y-0.5 hover:border-accent/40 hover:text-text-primary focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-text-primary/15 sm:px-5 sm:py-3"
                 >
                   See how it works
                 </Link>
               </div>
-              <div className="hero-reveal flex flex-wrap items-center gap-2 pt-2 text-[0.65rem] uppercase tracking-[0.16em] text-text-muted sm:text-xs">
+              <div className="hero-reveal flex flex-wrap items-center gap-2 pt-1 text-[0.65rem] uppercase tracking-[0.16em] text-text-muted sm:text-xs">
                 <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No ads</Pill>
                 <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No vocals</Pill>
                 <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No repetition</Pill>
@@ -123,67 +113,18 @@ export default function Home() {
               </div>
             </div>
 
-            <Card className="hero-reveal group relative overflow-hidden border-white/20 bg-white/40 p-6 shadow-[0_24px_70px_rgba(19,30,27,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-accent/35 hover:shadow-[0_28px_76px_rgba(47,111,94,0.2)] sm:p-7">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/50 via-white/5 to-accent/10" aria-hidden="true" />
-              <div className="relative space-y-6">
-                <div className="flex items-center justify-between">
-                  <p className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-text-muted">Live Product Preview</p>
-                  <span className="rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[0.65rem] font-medium uppercase tracking-[0.16em] text-accent">
-                    Playing
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-4 rounded-2xl border border-white/30 bg-white/50 p-4">
-                  <button
-                    type="button"
-                    aria-label="Now playing"
-                    className="playing-ring relative inline-flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-accent/40 bg-gradient-to-b from-accent to-accent/90 text-surface shadow-[0_14px_34px_rgba(47,111,94,0.3)]"
-                  >
-                    <span className="ml-0.5 text-2xl">▶</span>
-                  </button>
-                  <div className="space-y-1.5">
-                    <p className="text-xs uppercase tracking-[0.18em] text-text-muted">Now playing</p>
-                    <p className="text-sm font-medium text-text-primary">Warmth — Social, inviting</p>
-                    <div className="equalizer playing flex items-end gap-1.5" aria-hidden="true">
-                      <span />
-                      <span />
-                      <span />
-                      <span />
-                    </div>
+            <Card className="hero-reveal relative space-y-5 border-white/20 bg-white/45 p-5 shadow-[0_24px_70px_rgba(19,30,27,0.14)] backdrop-blur-xl sm:p-7">
+              <p className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-text-muted">Quick payoff</p>
+              <h2 className="text-2xl leading-tight sm:text-3xl">Make the room feel right in under 10 seconds.</h2>
+              <p className="text-sm leading-relaxed text-text-muted sm:text-base">
+                Choose a vibe, press play, and keep your atmosphere consistent all day.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-3 sm:gap-2">
+                {['Still', 'Warmth', 'Focus'].map((vibe) => (
+                  <div key={vibe} className="rounded-2xl border border-border/80 bg-surface/70 px-3 py-2 text-center text-xs text-text-primary">
+                    {vibe}
                   </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {livePreviewVibes.map((vibe) => (
-                    <button
-                      key={vibe}
-                      type="button"
-                      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition duration-200 ${
-                        vibe === 'Warmth'
-                          ? 'border-accent/50 bg-accent/12 text-accent'
-                          : 'border-border/80 bg-surface/70 text-text-muted hover:border-accent/30 hover:text-text-primary'
-                      }`}
-                    >
-                      {vibe}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-xs uppercase tracking-[0.17em] text-text-muted">
-                    <span>Intensity</span>
-                    <span>Balanced</span>
-                  </div>
-                  <input
-                    type="range"
-                    min={0}
-                    max={100}
-                    value={62}
-                    readOnly
-                    aria-label="Intensity"
-                    className="range-slider h-2 w-full cursor-default rounded-full bg-border/80"
-                  />
-                </div>
+                ))}
               </div>
             </Card>
           </div>
@@ -194,33 +135,36 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="pt-12 lg:pt-14">
-        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-          <Card className="space-y-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(30,30,30,0.08)]">
-            <h2 className="max-w-lg text-3xl leading-tight sm:text-4xl">Most spaces are winging it.</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {problemPoints.map((item) => (
-                <div key={item.body} className="rounded-2xl border border-border/80 bg-background/50 p-4">
-                  <div className="mb-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-surface text-sm text-text-primary">
-                    <span aria-hidden="true">{item.icon}</span>
-                  </div>
-                  <p className="text-sm font-medium text-text-primary">{item.title}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-text-muted">{item.body}</p>
-                </div>
-              ))}
-            </div>
-            <p className="text-base text-text-primary">Sound shouldn’t be another thing to manage.</p>
-          </Card>
+      <Section className="pt-2 sm:pt-4 lg:pt-6">
+        <TryVibeCard />
+      </Section>
 
-          <Card className="space-y-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(30,30,30,0.08)]">
-            <h2 className="max-w-lg text-3xl leading-tight sm:text-4xl">
-              Bynoral isn’t music. It’s sound infrastructure.
-            </h2>
-            <p className="max-w-xl text-base leading-relaxed text-text-muted sm:text-lg">
-              Continuous, non-repeating sound designed to support your space — not distract from it.
-              No tracks. No artists. No decisions. Just press play.
-            </p>
-          </Card>
+      <Section className="pt-10 lg:pt-14">
+        <div className="space-y-8 lg:space-y-10">
+          <h2 className="max-w-2xl text-3xl leading-tight sm:text-4xl">Why teams switch quickly</h2>
+          <div className="grid gap-5 md:grid-cols-3">
+            {quickPayoffCards.map((item) => (
+              <Card key={item.title} className="space-y-3 p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(30,30,30,0.08)]">
+                <h3 className="text-xl leading-snug">{item.title}</h3>
+                <p className="text-sm leading-relaxed sm:text-base">{item.body}</p>
+              </Card>
+            ))}
+          </div>
+          <details className="rounded-3xl border border-border bg-surface/70 p-6 shadow-[0_10px_30px_rgba(30,30,30,0.06)]">
+            <summary className="cursor-pointer list-none text-sm font-medium uppercase tracking-[0.14em] text-text-muted [&::-webkit-details-marker]:hidden">
+              Deep dive: how this differs from normal playlists
+            </summary>
+            <div className="mt-4 space-y-3 text-sm leading-relaxed text-text-muted sm:text-base">
+              <p>
+                Bynoral is not a track library. It generates continuous, non-repeating soundscapes designed for physical spaces,
+                so the atmosphere stays coherent from open to close.
+              </p>
+              <p>
+                You control the overall emotional direction with vibe and intensity, then let it run in the background without
+                the maintenance burden of finding, rotating, and policing playlists.
+              </p>
+            </div>
+          </details>
         </div>
       </Section>
 
@@ -320,7 +264,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="pt-10">
+      <Section className="pb-28 pt-10 sm:pb-20">
         <Card className="space-y-6 py-14 text-center">
           <h2 className="mx-auto max-w-3xl text-3xl leading-tight sm:text-4xl">
             Sound your space once. Never think about it again.
@@ -335,6 +279,23 @@ export default function Home() {
           </div>
         </Card>
       </Section>
+
+      <div className="fixed inset-x-3 bottom-3 z-40 md:hidden">
+        <div className="grid grid-cols-2 gap-2 rounded-2xl border border-border/70 bg-background/75 p-2 shadow-[0_10px_30px_rgba(19,30,27,0.18)] backdrop-blur-xl">
+          <Link
+            href="/player"
+            className="inline-flex items-center justify-center rounded-xl border border-accent/80 bg-accent px-3 py-2.5 text-sm font-semibold text-surface"
+          >
+            Start playing
+          </Link>
+          <Link
+            href="/pricing"
+            className="inline-flex items-center justify-center rounded-xl border border-border/80 bg-surface/85 px-3 py-2.5 text-sm font-medium text-text-primary"
+          >
+            Pricing
+          </Link>
+        </div>
+      </div>
     </>
   );
 }
