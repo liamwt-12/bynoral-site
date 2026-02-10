@@ -10,3 +10,4 @@ export * from './Motion';
 
 export * from './AnimatedBackground';
 export * from './Marquee';
+export * from './TryVibeCard';

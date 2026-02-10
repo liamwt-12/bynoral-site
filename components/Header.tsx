@@ -11,7 +11,7 @@ const navLinks = [
 export function Header() {
   return (
     <header className="sticky top-0 z-30 border-b border-border/70 bg-background/90 backdrop-blur-xl">
-      <Container className="flex h-20 items-center justify-between gap-8">
+      <Container className="flex h-16 items-center justify-between gap-4 sm:h-20 sm:gap-8">
         <Link
           href="/"
           className="font-heading text-xl tracking-tight text-text-primary focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-text-primary/15"
@@ -33,7 +33,7 @@ export function Header() {
 
         <Link
           href="/player"
-          className="inline-flex items-center justify-center rounded-full border border-accent bg-accent px-5 py-2.5 text-sm font-medium text-surface shadow-[0_8px_22px_rgba(47,111,94,0.22)] transition duration-200 hover:-translate-y-0.5 hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
+          className="inline-flex items-center justify-center rounded-full border border-accent bg-accent px-4 py-2 text-xs font-medium text-surface shadow-[0_8px_22px_rgba(47,111,94,0.22)] transition duration-200 hover:-translate-y-0.5 hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30 sm:px-5 sm:py-2.5 sm:text-sm"
         >
           Start playing
         </Link>
