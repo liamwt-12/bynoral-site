@@ -1,285 +1,218 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 
-import { AnimatedBackground, Card, Marquee, Pill, PricingCard, Section, TryVibeCard } from '../components';
+import { Card, Section } from '../components';
 
-const quickPayoffCards = [
+const trustedBy = ['Atelier North', 'Foundry Coffee', 'Luma Pilates', 'Verde Clinic'];
+
+const whyItWorks = [
   {
-    title: 'No playlist upkeep',
-    body: 'Your space stays consistent without daily staff decisions or repeated tracks.'
+    title: 'Adaptive sound engine',
+    body: 'Vibe and intensity flex with your day so your atmosphere never feels static.',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+        <path d="M4 15c2.5-4 5.5-6 8-6s5.5 2 8 6" />
+        <path d="M4 9c2.5 4 5.5 6 8 6s5.5-2 8-6" />
+        <circle cx="12" cy="12" r="2.5" />
+      </svg>
+    )
   },
   {
-    title: 'Commercially safe by default',
-    body: 'Designed for business use, so licensing stress does not interrupt your day.'
+    title: 'Commercially safe',
+    body: 'Purpose-built for business playback, so teams can press play without compliance stress.',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+        <path d="M12 3 5 6v6c0 4 3 7.5 7 9 4-1.5 7-5 7-9V6l-7-3Z" />
+        <path d="m9.5 11.5 2 2 3.5-4" />
+      </svg>
+    )
   },
   {
-    title: 'Sound that adapts',
-    body: 'Choose a vibe and intensity in seconds, then let it run reliably in the background.'
+    title: 'Set and forget reliability',
+    body: 'No playlists, no skipped tracks, no awkward transitions when staff changes shifts.',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+        <rect x="4" y="6" width="16" height="12" rx="3" />
+        <path d="M8 12h8" />
+        <path d="M12 9v6" />
+      </svg>
+    )
   }
 ];
 
-const steps = [
+const useCases = [
   {
-    title: 'Choose a vibe',
-    body: 'Calm, warm, focused or energised (designed for real spaces)'
+    label: 'Coffee rush',
+    copy: 'Lift energy without chaos. Keep queues moving while the room still feels intentional.'
   },
   {
-    title: 'Set intensity',
-    body: 'Quiet mornings. Busy afternoons. Softer evenings.'
+    label: 'Treatment rooms',
+    copy: 'Gentle low-stimulation textures that calm nerves before consultations and procedures.'
   },
   {
-    title: 'Press play',
-    body: 'Runs all day, reliably and legally.'
+    label: 'Boutique retail',
+    copy: 'Premium atmosphere that supports dwell time and makes the brand feel more elevated.'
+  },
+  {
+    label: 'Morning classes',
+    copy: 'Focused momentum for reformer/yoga flows that need clarity and consistency.'
   }
 ];
-
-const vibes = [
-  { name: 'Still', detail: 'low stimulation, soft textures' },
-  { name: 'Balanced', detail: 'neutral, all-day default' },
-  { name: 'Warmth', detail: 'social, inviting' },
-  { name: 'Focus', detail: 'reduces background chatter' },
-  { name: 'Lift', detail: 'subtle energy, no stress' },
-  { name: 'Dusk', detail: 'slower, softer, settled' }
-];
-
-const benefits = [
-  'No licensing stress — commercially safe soundscapes, no PRS/PPL needed',
-  'No repetition — never loops or plays recognisable tracks',
-  'Staff-proof — no playlists, no ads, no arguments'
-];
-
-const audiences = ['Cafés', 'Yoga & Pilates', 'Barbers & salons', 'Boutiques', 'Clinics', 'Co-working'];
-
-const plans = [
-  {
-    name: 'Single Space',
-    price: '£19',
-    features: ['1 location', '3 vibes']
-  },
-  {
-    name: 'Branded Space',
-    price: '£29',
-    features: ['1 location', '6–8 vibes', 'time-of-day shifts', 'chatter reduction'],
-    highlighted: true,
-    footer: 'Most popular'
-  },
-  {
-    name: 'Multi-Location',
-    price: '£79',
-    features: ['up to 5 locations', 'central control']
-  }
-];
-
-const spaces = ['Cafés', 'Barbers', 'Pilates', 'Boutiques', 'Clinics', 'Co-working', 'Studios'];
 
 export default function Home() {
+  const [selectedCase, setSelectedCase] = useState(useCases[0]);
+
   return (
     <>
-      <Section className="relative overflow-hidden pb-8 pt-14 sm:pt-20 lg:pb-16 lg:pt-24" containerClassName="max-w-[84rem]">
-        <AnimatedBackground />
+      <Section className="relative overflow-hidden pb-24 pt-12 sm:pt-16">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(47,111,94,0.28),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(144,166,159,0.3),transparent_42%),radial-gradient(circle_at_50%_100%,rgba(40,73,64,0.25),transparent_48%),linear-gradient(145deg,#f7f4ef_0%,#eef5f2_42%,#f8f2ec_100%)]" />
+        <div className="hero-orb hero-orb-1" />
+        <div className="hero-orb hero-orb-2" />
+        <div className="hero-orb hero-orb-3" />
+        <div className="hero-noise pointer-events-none absolute inset-0" />
 
-        <div className="space-y-10 lg:space-y-14">
-          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(340px,430px)] lg:gap-12">
-            <div className="space-y-6 sm:space-y-7">
-              <p className="hero-reveal text-xs uppercase tracking-[0.2em] text-text-muted">Commercial sound, simplified</p>
-              <h1 className="hero-reveal max-w-4xl font-heading text-4xl leading-[0.98] tracking-tight text-text-primary sm:text-6xl lg:text-[4.6rem]">
-                <span className="inline bg-gradient-to-r from-text-primary via-accent to-text-primary bg-clip-text text-transparent">
-                  Sound
-                </span>{' '}
-                <span className="inline">designed for spaces.</span>
-              </h1>
-              <p className="hero-reveal max-w-3xl text-base leading-relaxed text-text-muted sm:text-lg lg:text-xl">
-                Calm, consistent background sound for cafés, studios and workspaces — without playlists, ads
-                or licensing stress.
-              </p>
-              <div className="hero-reveal flex flex-wrap items-center gap-3 pt-1 sm:gap-4">
-                <Link
-                  href="/player"
-                  className="hero-cta inline-flex items-center justify-center rounded-full border border-accent/70 bg-gradient-to-b from-accent to-accent/85 px-6 py-3 text-sm font-semibold text-surface shadow-[0_10px_30px_rgba(47,111,94,0.25)] transition duration-250 hover:-translate-y-0.5 hover:shadow-[0_14px_34px_rgba(47,111,94,0.36)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
-                >
-                  <span className="relative z-10">Start playing</span>
-                </Link>
-                <Link
-                  href="/how-it-works"
-                  className="inline-flex items-center rounded-full border border-border/80 bg-surface/70 px-4 py-2.5 text-sm font-medium text-text-muted transition duration-250 hover:-translate-y-0.5 hover:border-accent/40 hover:text-text-primary focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-text-primary/15 sm:px-5 sm:py-3"
-                >
-                  See how it works
-                </Link>
-              </div>
-              <div className="hero-reveal flex flex-wrap items-center gap-2 pt-1 text-[0.65rem] uppercase tracking-[0.16em] text-text-muted sm:text-xs">
-                <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No ads</Pill>
-                <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No vocals</Pill>
-                <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No repetition</Pill>
-                <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No PRS/PPL required</Pill>
-              </div>
-            </div>
-
-            <Card className="hero-reveal relative space-y-5 border-white/20 bg-white/45 p-5 shadow-[0_24px_70px_rgba(19,30,27,0.14)] backdrop-blur-xl sm:p-7">
-              <p className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-text-muted">Quick payoff</p>
-              <h2 className="text-2xl leading-tight sm:text-3xl">Make the room feel right in under 10 seconds.</h2>
-              <p className="text-sm leading-relaxed text-text-muted sm:text-base">
-                Choose a vibe, press play, and keep your atmosphere consistent all day.
-              </p>
-              <div className="grid gap-3 sm:grid-cols-3 sm:gap-2">
-                {['Still', 'Warmth', 'Focus'].map((vibe) => (
-                  <div key={vibe} className="rounded-2xl border border-border/80 bg-surface/70 px-3 py-2 text-center text-xs text-text-primary">
-                    {vibe}
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </div>
-
-          <div className="hero-reveal rounded-full border border-border/75 bg-surface/70 px-4 py-3 backdrop-blur-sm sm:px-6">
-            <Marquee items={spaces} label="Loved by spaces like yours" />
-          </div>
-        </div>
-      </Section>
-
-      <Section className="pt-0 sm:pt-2 lg:pt-4">
-        <TryVibeCard />
-      </Section>
-
-      <Section className="pt-8 lg:pt-12">
-        <div className="space-y-8 lg:space-y-10">
-          <h2 className="max-w-2xl text-3xl leading-tight sm:text-4xl">Why teams switch quickly</h2>
-          <div className="grid gap-5 md:grid-cols-3">
-            {quickPayoffCards.map((item) => (
-              <Card key={item.title} className="space-y-3 p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(30,30,30,0.08)]">
-                <h3 className="text-xl leading-snug">{item.title}</h3>
-                <p className="text-sm leading-relaxed sm:text-base">{item.body}</p>
-              </Card>
-            ))}
-          </div>
-          <details className="rounded-3xl border border-border bg-surface/70 p-6 shadow-[0_10px_30px_rgba(30,30,30,0.06)]">
-            <summary className="cursor-pointer list-none text-sm font-medium uppercase tracking-[0.14em] text-text-muted [&::-webkit-details-marker]:hidden">
-              Deep dive: how this differs from normal playlists
-            </summary>
-            <div className="mt-4 space-y-3 text-sm leading-relaxed text-text-muted sm:text-base">
-              <p>
-                Bynoral is not a track library. It generates continuous, non-repeating soundscapes designed for physical spaces,
-                so the atmosphere stays coherent from open to close.
-              </p>
-              <p>
-                You control the overall emotional direction with vibe and intensity, then let it run in the background without
-                the maintenance burden of finding, rotating, and policing playlists.
-              </p>
-            </div>
-          </details>
-        </div>
-      </Section>
-
-      <Section>
-        <div className="space-y-10 lg:space-y-12">
-          <h2 className="max-w-2xl text-3xl leading-tight sm:text-4xl">How it works</h2>
-          <div className="grid gap-5 md:grid-cols-3">
-            {steps.map((step, idx) => (
-              <div key={step.title} className="relative">
-                {idx < steps.length - 1 ? (
-                  <span
-                    className="pointer-events-none absolute left-[2.35rem] top-12 hidden h-px w-[calc(100%-1rem)] bg-border md:block"
-                    aria-hidden="true"
-                  />
-                ) : null}
-                <Card className="relative space-y-4 border-border/80">
-                  <div className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background text-sm font-medium text-text-primary">
-                    {idx + 1}
-                  </div>
-                  <h3 className="text-2xl leading-snug">{step.title}</h3>
-                  <p className="text-sm leading-relaxed sm:text-base">{step.body}</p>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      <Section>
-        <div className="space-y-10 lg:space-y-12">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <h2 className="max-w-2xl text-3xl leading-tight sm:text-4xl">Vibes for every part of the day</h2>
-            <div className="hidden rounded-full border border-border bg-surface px-4 py-2 text-sm text-text-muted md:block">
-              Optional toggle: Reduce background chatter
-            </div>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {vibes.map((vibe) => (
-              <Card
-                key={vibe.name}
-                className="space-y-3 border-border/80 transition duration-300 hover:-translate-y-1 hover:border-accent/35 hover:shadow-[0_20px_44px_rgba(47,111,94,0.14)]"
-              >
-                <h3 className="text-2xl">{vibe.name}</h3>
-                <p className="text-sm sm:text-base">{vibe.detail}</p>
-              </Card>
-            ))}
-          </div>
-          <p className="md:hidden rounded-full border border-border bg-surface px-4 py-2 text-sm text-text-muted">
-            Optional toggle: Reduce background chatter
+        <div className="relative z-10 space-y-7">
+          <p className="hero-reveal text-[0.65rem] uppercase tracking-[0.24em] text-text-muted">Commercial sound, beautifully automated</p>
+          <h1 className="hero-reveal max-w-3xl text-5xl leading-[0.94] tracking-tight sm:text-6xl">
+            Give your space a{' '}
+            <span className="bg-gradient-to-r from-[#25584b] via-accent to-[#75a89a] bg-clip-text text-transparent">premium pulse</span>.
+          </h1>
+          <p className="hero-reveal max-w-xl text-base leading-relaxed text-text-muted sm:text-lg">
+            Bynoral creates continuous, non-repeating soundscapes for cafés, studios and clinics—so every hour feels on-brand.
           </p>
-        </div>
-      </Section>
 
-      <Section>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {benefits.map((benefit) => (
-            <Card
-              key={benefit}
-              className="transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(30,30,30,0.08)]"
-            >
-              <p className="text-base leading-relaxed text-text-primary">{benefit}</p>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
-      <Section>
-        <div className="space-y-6 lg:space-y-8">
-          <h2 className="text-3xl leading-tight sm:text-4xl">Who it&apos;s for</h2>
-          <div className="flex max-w-4xl flex-wrap gap-3">
-            {audiences.map((audience) => (
-              <Pill key={audience} className="!bg-surface !px-4 !py-2 !text-sm !normal-case !tracking-normal">
-                {audience}
-              </Pill>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      <Section>
-        <div className="space-y-8 lg:space-y-10">
-          <h2 className="text-3xl leading-tight sm:text-4xl">Pricing preview</h2>
-          <div className="grid gap-6 lg:grid-cols-3">
-            {plans.map((plan) => (
-              <PricingCard
-                key={plan.name}
-                name={plan.name}
-                price={plan.price}
-                features={plan.features}
-                highlighted={plan.highlighted}
-                footer={plan.footer}
-                ctaLabel="Start playing"
-                cadence="/mo"
-              />
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      <Section className="pb-28 pt-10 sm:pb-20">
-        <Card className="space-y-6 py-14 text-center">
-          <h2 className="mx-auto max-w-3xl text-3xl leading-tight sm:text-4xl">
-            Sound your space once. Never think about it again.
-          </h2>
-          <div>
+          <div className="hero-reveal flex flex-wrap items-center gap-3 pt-1">
             <Link
               href="/player"
-              className="inline-flex items-center justify-center rounded-full border border-accent bg-accent px-6 py-3 text-sm font-medium text-surface transition duration-200 hover:-translate-y-0.5 hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
+              className="hero-cta group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-accent/80 bg-gradient-to-b from-accent to-[#245547] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_34px_rgba(47,111,94,0.35)] transition duration-300 hover:-translate-y-0.5"
             >
-              Start playing
+              <span className="relative z-10">Start playing</span>
+            </Link>
+            <Link
+              href="/how-it-works"
+              className="inline-flex items-center rounded-full border border-border/80 bg-white/65 px-5 py-3 text-sm font-medium text-text-primary backdrop-blur transition hover:border-accent/50"
+            >
+              Explore product
+            </Link>
+          </div>
+
+          <div className="hero-reveal flex flex-wrap gap-2 pt-1 text-[0.66rem] uppercase tracking-[0.18em] text-text-muted">
+            {['No ads', 'No vocals', 'No repetition', 'No PRS/PPL needed'].map((item) => (
+              <span key={item} className="rounded-full border border-white/50 bg-white/55 px-3 py-1.5 backdrop-blur">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      <Section className="-mt-20 pt-0 sm:-mt-12">
+        <div className="mobile-player-alive relative overflow-hidden rounded-[2rem] border border-white/50 bg-gradient-to-b from-white/90 to-white/70 p-5 shadow-[0_24px_65px_rgba(19,30,27,0.15)] backdrop-blur">
+          <div className="mb-4 flex items-center justify-between text-xs text-text-muted">
+            <span className="uppercase tracking-[0.17em]">Live product preview</span>
+            <span>Now shaping ambience</span>
+          </div>
+          <div className="rounded-2xl border border-accent/15 bg-[#111a17] p-4 text-white">
+            <div className="mb-4 h-32 rounded-xl bg-[radial-gradient(circle_at_20%_30%,rgba(117,168,154,0.36),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(47,111,94,0.48),transparent_45%),linear-gradient(125deg,#172621,#0e1714)] p-3">
+              <div className="equalizer playing flex h-full items-end gap-1.5">
+                <span style={{ height: '14px' }} />
+                <span style={{ height: '24px' }} />
+                <span style={{ height: '16px' }} />
+                <span style={{ height: '22px' }} />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-white">Balanced / Midday Lift</p>
+                  <p className="text-xs text-emerald-100/75">Intensity 62% • Dynamic mode</p>
+                </div>
+                <span className="rounded-full border border-emerald-200/40 px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.16em]">Live</span>
+              </div>
+              <div className="h-1.5 rounded-full bg-white/20">
+                <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-emerald-200 to-emerald-400" />
+              </div>
+              <div className="flex items-center gap-2 text-xs text-emerald-100/80">
+                <span className="h-2 w-2 rounded-full bg-emerald-300" />
+                Smoothly adapting to room energy
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="pt-10">
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.2em] text-text-muted">Trusted by</p>
+            <div className="flex flex-wrap gap-2">
+              {trustedBy.map((name) => (
+                <span key={name} className="rounded-full border border-border/80 bg-surface/85 px-3 py-2 text-xs font-medium text-text-muted">
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="mb-4 text-3xl leading-tight sm:text-4xl">Why it works</h2>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {whyItWorks.map((item) => (
+                <Card key={item.title} className="space-y-3 border-white/65 bg-white/70 p-5">
+                  <div className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-xl leading-tight">{item.title}</h3>
+                  <p className="text-sm leading-relaxed">{item.body}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-border/70 bg-surface/70 p-5">
+            <h2 className="text-3xl leading-tight sm:text-4xl">Use cases</h2>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {useCases.map((item) => {
+                const active = selectedCase.label === item.label;
+                return (
+                  <button
+                    key={item.label}
+                    type="button"
+                    onClick={() => setSelectedCase(item)}
+                    className={`rounded-full border px-4 py-2 text-sm transition ${
+                      active ? 'border-accent bg-accent text-white shadow-[0_8px_20px_rgba(47,111,94,0.3)]' : 'border-border bg-white text-text-muted'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+            <p key={selectedCase.label} className="mt-4 min-h-[48px] animate-[page-enter_0.25s_ease-out] text-sm leading-relaxed sm:text-base">
+              {selectedCase.copy}
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="pb-24 pt-10">
+        <Card className="space-y-6 border-white/70 bg-gradient-to-b from-white to-[#f0f8f5] py-12 text-center">
+          <h2 className="mx-auto max-w-2xl text-3xl leading-tight sm:text-4xl">Launch a richer atmosphere in minutes.</h2>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/player"
+              className="hero-cta inline-flex items-center justify-center rounded-full border border-accent/80 bg-gradient-to-b from-accent to-[#25584b] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(47,111,94,0.32)]"
+            >
+              Start free
+            </Link>
+            <Link href="/how-it-works" className="rounded-full border border-border bg-white px-5 py-3 text-sm font-medium text-text-muted">
+              See how it works
             </Link>
           </div>
         </Card>
       </Section>
-
     </>
   );
 }
