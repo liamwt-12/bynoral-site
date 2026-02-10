@@ -179,6 +179,11 @@
   box-shadow: 0 1px 6px rgba(30, 30, 30, 0.25);
 }
 
+
+.mobile-player-alive {
+  animation: player-breathe 3.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-gradient-wash,
   .hero-orb-1,
@@ -188,7 +193,8 @@
   .playing-ring::after,
   .equalizer.playing span,
   .marquee-content,
-  .hero-cta::after {
+  .hero-cta::after,
+  .mobile-player-alive {
     animation: none !important;
     transition: none !important;
     transform: none !important;
@@ -284,6 +290,35 @@
 
   50% {
     transform: scaleY(1);
+  }
+}
+
+
+@keyframes player-breathe {
+  0%,
+  100% {
+    box-shadow: 0 16px 34px rgba(19, 30, 27, 0.16);
+  }
+
+  50% {
+    box-shadow: 0 20px 38px rgba(47, 111, 94, 0.22);
+  }
+}
+
+@keyframes player-shimmer {
+  0% {
+    transform: translateX(-55%);
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 0.42;
+  }
+
+  70%,
+  100% {
+    transform: translateX(65%);
+    opacity: 0;
   }
 }
 

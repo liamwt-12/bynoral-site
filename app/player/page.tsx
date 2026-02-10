@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { Card } from '../../components';
 
@@ -16,38 +16,52 @@ const vibeDescriptions: Record<(typeof vibes)[number], string> = {
   Dusk: 'Slower, softer, settled'
 };
 
+const demoTrackPath = '/audio/track10-james.mp3';
+
 function formatElapsed(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60)
     .toString()
     .padStart(2, '0');
-  const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+  const seconds = Math.floor(totalSeconds % 60)
+    .toString()
+    .padStart(2, '0');
   return `${minutes}:${seconds}`;
 }
 
 export default function PlayerPage() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [selectedVibe, setSelectedVibe] = useState<(typeof vibes)[number]>('Balanced');
   const [intensity, setIntensity] = useState(50);
   const [reduceChatter, setReduceChatter] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  useEffect(() => {
-    if (!isPlaying) {
-      return;
-    }
-
-    const timer = window.setInterval(() => {
-      setElapsedSeconds((prev) => prev + 1);
-    }, 1000);
-
-    return () => window.clearInterval(timer);
-  }, [isPlaying]);
-
-  const status = useMemo(() => `Running for ${formatElapsed(elapsedSeconds)}`, [elapsedSeconds]);
+  const status = useMemo(() => `Running for ${formatElapsed(currentTime)}`, [currentTime]);
   const nowPlayingLine = useMemo(
     () => `${selectedVibe} — ${vibeDescriptions[selectedVibe]}`,
     [selectedVibe]
   );
+
+  const togglePlayback = async () => {
+    const audio = audioRef.current;
+    if (!audio) {
+      return;
+    }
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+        setIsPlaying(true);
+      } catch {
+        setIsPlaying(false);
+      }
+      return;
+    }
+
+    audio.pause();
+    setIsPlaying(false);
+  };
 
   return (
     <section className="flex min-h-[calc(100vh-10rem)] items-center justify-center px-6 py-16 sm:py-20">
@@ -68,10 +82,21 @@ export default function PlayerPage() {
         </div>
 
         <Card className="space-y-9 rounded-[2rem] border-border/80 bg-surface/95 p-8 shadow-[0_24px_64px_rgba(20,20,20,0.12)] sm:p-11">
+          <audio
+            ref={audioRef}
+            src={demoTrackPath}
+            preload="metadata"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onEnded={() => setIsPlaying(false)}
+            onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
+            onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+          />
+
           <div className="flex flex-col items-center gap-4 text-center">
             <button
               type="button"
-              onClick={() => setIsPlaying((prev) => !prev)}
+              onClick={togglePlayback}
               aria-label={isPlaying ? 'Pause playback' : 'Start playback'}
               className={[
                 'relative inline-flex h-36 w-36 items-center justify-center rounded-full border text-lg font-medium text-surface transition duration-300',
@@ -116,6 +141,30 @@ export default function PlayerPage() {
                 <span className={isPlaying ? 'animate-[eq_1.1s_ease-in-out_infinite_0.24s]' : ''} />
               </span>
               <span>{status}</span>
+            </div>
+
+            <div className="w-full max-w-md space-y-1">
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={duration > 0 ? (currentTime / duration) * 100 : 0}
+                onChange={(event) => {
+                  const audio = audioRef.current;
+                  if (!audio || !Number.isFinite(audio.duration)) {
+                    return;
+                  }
+                  const seekTarget = (Number(event.target.value) / 100) * audio.duration;
+                  audio.currentTime = seekTarget;
+                  setCurrentTime(seekTarget);
+                }}
+                className="range-slider h-2 w-full cursor-pointer appearance-none rounded-full bg-border"
+                aria-label="Track progress"
+              />
+              <div className="flex justify-between text-xs text-text-muted">
+                <span>{formatElapsed(currentTime)}</span>
+                <span>{formatElapsed(duration)}</span>
+              </div>
             </div>
           </div>
 
