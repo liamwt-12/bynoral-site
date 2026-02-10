@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Card, Pill, PricingCard, Section } from '../components';
+import { AnimatedBackground, Card, Marquee, Pill, PricingCard, Section } from '../components';
 
 const problemPoints = [
   {
@@ -77,66 +77,119 @@ const plans = [
   }
 ];
 
-const demoStrip = [
-  { name: 'Still', detail: 'Low stimulation for quieter moments.' },
-  { name: 'Warmth', detail: 'Social, inviting tone for welcoming spaces.' },
-  { name: 'Focus', detail: 'Helps reduce chatter in busy environments.' }
-];
+const livePreviewVibes = ['Still', 'Warmth', 'Focus'];
+
+const spaces = ['Cafés', 'Barbers', 'Pilates', 'Boutiques', 'Clinics', 'Co-working', 'Studios'];
 
 export default function Home() {
   return (
     <>
       <Section className="relative overflow-hidden pb-14 pt-24 sm:pt-28 lg:pb-20 lg:pt-32" containerClassName="max-w-[84rem]">
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="hero-ambient absolute left-1/2 top-8 h-[34rem] w-[90%] max-w-6xl -translate-x-1/2 rounded-[50%]" />
-        </div>
+        <AnimatedBackground />
 
         <div className="space-y-14 lg:space-y-16">
-          <div className="space-y-8">
-            <p className="text-xs uppercase tracking-[0.2em] text-text-muted">Commercial sound, simplified</p>
-            <h1 className="max-w-4xl font-heading text-5xl leading-[1.04] tracking-tight text-text-primary sm:text-6xl lg:text-7xl">
-              <span className="inline">Sound </span>
-              <span className="inline bg-gradient-to-r from-text-primary via-accent to-text-primary bg-clip-text text-transparent">
-                designed
-              </span>{' '}
-              <span className="inline">for spaces.</span>
-            </h1>
-            <p className="max-w-3xl text-lg leading-relaxed text-text-muted lg:text-xl">
-              Calm, consistent background sound for cafés, studios and workspaces — without playlists,
-              ads or licensing stress.
-            </p>
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link
-                href="/player"
-                className="inline-flex items-center justify-center rounded-full border border-accent bg-accent px-7 py-3.5 text-sm font-medium text-surface transition duration-200 hover:-translate-y-0.5 hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
-              >
-                Start playing
-              </Link>
-              <Link
-                href="/how-it-works"
-                className="text-sm font-medium text-text-muted transition duration-200 hover:text-text-primary focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-text-primary/15"
-              >
-                See how it works
-              </Link>
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,480px)] lg:gap-12">
+            <div className="space-y-8">
+              <p className="hero-reveal text-xs uppercase tracking-[0.2em] text-text-muted">Commercial sound, simplified</p>
+              <h1 className="hero-reveal max-w-4xl font-heading text-5xl leading-[0.98] tracking-tight text-text-primary sm:text-6xl lg:text-[4.6rem]">
+                <span className="inline bg-gradient-to-r from-text-primary via-accent to-text-primary bg-clip-text text-transparent">
+                  Sound
+                </span>{' '}
+                <span className="inline">designed for spaces.</span>
+              </h1>
+              <p className="hero-reveal max-w-3xl text-lg leading-relaxed text-text-muted lg:text-xl">
+                Calm, consistent background sound for cafés, studios and workspaces — without playlists, ads
+                or licensing stress.
+              </p>
+              <div className="hero-reveal flex flex-wrap items-center gap-4 pt-2">
+                <Link
+                  href="/player"
+                  className="hero-cta inline-flex items-center justify-center rounded-full border border-accent/70 bg-gradient-to-b from-accent to-accent/85 px-7 py-3.5 text-sm font-semibold text-surface shadow-[0_10px_30px_rgba(47,111,94,0.25)] transition duration-250 hover:-translate-y-0.5 hover:shadow-[0_14px_34px_rgba(47,111,94,0.36)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
+                >
+                  <span className="relative z-10">Start playing</span>
+                </Link>
+                <Link
+                  href="/how-it-works"
+                  className="inline-flex items-center rounded-full border border-border/80 bg-surface/70 px-5 py-3 text-sm font-medium text-text-muted transition duration-250 hover:-translate-y-0.5 hover:border-accent/40 hover:text-text-primary focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-text-primary/15"
+                >
+                  See how it works
+                </Link>
+              </div>
+              <div className="hero-reveal flex flex-wrap items-center gap-2 pt-2 text-[0.65rem] uppercase tracking-[0.16em] text-text-muted sm:text-xs">
+                <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No ads</Pill>
+                <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No vocals</Pill>
+                <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No repetition</Pill>
+                <Pill className="!border-border/80 !bg-surface/80 !px-3 !py-1.5 !text-text-muted">No PRS/PPL required</Pill>
+              </div>
             </div>
-            <div className="flex flex-wrap items-center gap-2 pt-2 text-xs uppercase tracking-[0.18em] text-text-muted">
-              <Pill className="!border-border/70 !bg-surface/80 !text-text-muted">No ads</Pill>
-              <Pill className="!border-border/70 !bg-surface/80 !text-text-muted">No vocals</Pill>
-              <Pill className="!border-border/70 !bg-surface/80 !text-text-muted">No repetition</Pill>
-              <Pill className="!border-border/70 !bg-surface/80 !text-text-muted">No PRS/PPL required</Pill>
-            </div>
+
+            <Card className="hero-reveal group relative overflow-hidden border-white/20 bg-white/40 p-6 shadow-[0_24px_70px_rgba(19,30,27,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-accent/35 hover:shadow-[0_28px_76px_rgba(47,111,94,0.2)] sm:p-7">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/50 via-white/5 to-accent/10" aria-hidden="true" />
+              <div className="relative space-y-6">
+                <div className="flex items-center justify-between">
+                  <p className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-text-muted">Live Product Preview</p>
+                  <span className="rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[0.65rem] font-medium uppercase tracking-[0.16em] text-accent">
+                    Playing
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-4 rounded-2xl border border-white/30 bg-white/50 p-4">
+                  <button
+                    type="button"
+                    aria-label="Now playing"
+                    className="playing-ring relative inline-flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-accent/40 bg-gradient-to-b from-accent to-accent/90 text-surface shadow-[0_14px_34px_rgba(47,111,94,0.3)]"
+                  >
+                    <span className="ml-0.5 text-2xl">▶</span>
+                  </button>
+                  <div className="space-y-1.5">
+                    <p className="text-xs uppercase tracking-[0.18em] text-text-muted">Now playing</p>
+                    <p className="text-sm font-medium text-text-primary">Warmth — Social, inviting</p>
+                    <div className="equalizer playing flex items-end gap-1.5" aria-hidden="true">
+                      <span />
+                      <span />
+                      <span />
+                      <span />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {livePreviewVibes.map((vibe) => (
+                    <button
+                      key={vibe}
+                      type="button"
+                      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition duration-200 ${
+                        vibe === 'Warmth'
+                          ? 'border-accent/50 bg-accent/12 text-accent'
+                          : 'border-border/80 bg-surface/70 text-text-muted hover:border-accent/30 hover:text-text-primary'
+                      }`}
+                    >
+                      {vibe}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs uppercase tracking-[0.17em] text-text-muted">
+                    <span>Intensity</span>
+                    <span>Balanced</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={62}
+                    readOnly
+                    aria-label="Intensity"
+                    className="range-slider h-2 w-full cursor-default rounded-full bg-border/80"
+                  />
+                </div>
+              </div>
+            </Card>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            {demoStrip.map((item) => (
-              <Card
-                key={item.name}
-                className="space-y-2 border-border/80 bg-surface/85 p-5 shadow-[0_14px_36px_rgba(30,30,30,0.06)]"
-              >
-                <p className="text-xs uppercase tracking-[0.2em] text-text-muted">{item.name}</p>
-                <p className="text-sm leading-relaxed text-text-primary">{item.detail}</p>
-              </Card>
-            ))}
+          <div className="hero-reveal rounded-full border border-border/75 bg-surface/70 px-4 py-3 backdrop-blur-sm sm:px-6">
+            <Marquee items={spaces} label="Loved by spaces like yours" />
           </div>
         </div>
       </Section>
