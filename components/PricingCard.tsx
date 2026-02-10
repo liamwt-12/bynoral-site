@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 
 import { Button } from './Button';
-import { Card } from './Card';
+import { GlassCard } from './GlassCard';
+import { Glow } from './Glow';
 import { Pill } from './Pill';
 
 type PricingCardProps = {
@@ -24,18 +25,19 @@ export function PricingCard({
   footer
 }: PricingCardProps) {
   return (
-    <Card
+    <GlassCard
       className={[
-        'flex h-full flex-col gap-8',
-        highlighted ? 'ring-1 ring-accent/40' : ''
+        'relative flex h-full flex-col gap-8 p-7',
+        highlighted ? 'border-accent/40 bg-white/82 shadow-[0_24px_56px_rgba(47,111,94,0.16)]' : ''
       ]
         .join(' ')
         .trim()}
     >
-      <div className="space-y-5">
+      {highlighted ? <Glow className="-right-12 -top-12 h-56 w-56" /> : null}
+      <div className="relative z-10 space-y-5">
         <div className="flex items-center justify-between gap-4">
           <h3 className="font-heading text-2xl text-text-primary">{name}</h3>
-          {highlighted ? <Pill>Popular</Pill> : null}
+          {highlighted ? <Pill className="!normal-case !tracking-normal">Most popular</Pill> : null}
         </div>
         <p className="font-heading text-4xl leading-none tracking-tight text-text-primary">
           {price}
@@ -43,7 +45,7 @@ export function PricingCard({
         </p>
       </div>
 
-      <ul className="space-y-3 text-sm text-text-muted">
+      <ul className="relative z-10 space-y-3 text-sm text-text-muted">
         {features.map((feature) => (
           <li key={feature} className="flex items-start gap-2">
             <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
@@ -52,12 +54,12 @@ export function PricingCard({
         ))}
       </ul>
 
-      <div className="mt-auto space-y-4">
+      <div className="relative z-10 mt-auto space-y-4">
         <Button variant={highlighted ? 'primary' : 'secondary'} className="w-full">
           {ctaLabel}
         </Button>
         {footer ? <div className="text-sm text-text-muted">{footer}</div> : null}
       </div>
-    </Card>
+    </GlassCard>
   );
 }
