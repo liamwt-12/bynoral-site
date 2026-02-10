@@ -1,0 +1,63 @@
+import type { ReactNode } from 'react';
+
+import { Button } from './Button';
+import { Card } from './Card';
+import { Pill } from './Pill';
+
+type PricingCardProps = {
+  name: string;
+  price: string;
+  cadence?: string;
+  features: string[];
+  highlighted?: boolean;
+  ctaLabel?: string;
+  footer?: ReactNode;
+};
+
+export function PricingCard({
+  name,
+  price,
+  cadence = '/month',
+  features,
+  highlighted = false,
+  ctaLabel = 'Select plan',
+  footer
+}: PricingCardProps) {
+  return (
+    <Card
+      className={[
+        'flex h-full flex-col gap-8',
+        highlighted ? 'ring-1 ring-accent/40' : ''
+      ]
+        .join(' ')
+        .trim()}
+    >
+      <div className="space-y-5">
+        <div className="flex items-center justify-between gap-4">
+          <h3 className="font-heading text-2xl text-text-primary">{name}</h3>
+          {highlighted ? <Pill>Popular</Pill> : null}
+        </div>
+        <p className="font-heading text-4xl leading-none tracking-tight text-text-primary">
+          {price}
+          <span className="ml-2 font-body text-base font-normal text-text-muted">{cadence}</span>
+        </p>
+      </div>
+
+      <ul className="space-y-3 text-sm text-text-muted">
+        {features.map((feature) => (
+          <li key={feature} className="flex items-start gap-2">
+            <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-auto space-y-4">
+        <Button variant={highlighted ? 'primary' : 'secondary'} className="w-full">
+          {ctaLabel}
+        </Button>
+        {footer ? <div className="text-sm text-text-muted">{footer}</div> : null}
+      </div>
+    </Card>
+  );
+}
