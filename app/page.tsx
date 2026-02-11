@@ -9,6 +9,19 @@ const trustedBy = ['Aster Studio', 'Northline Co.', 'Marlow Clinics', 'Pine & Be
 
 const liveStatuses = ['Shaping ambience…', 'Reducing chatter…', 'Smoothing transitions…'];
 
+const getServiceWindow = (hour: number) => {
+  if (hour >= 6 && hour < 11) return 'Morning Service';
+  if (hour >= 11 && hour < 16) return 'Midday Flow';
+  return 'After Hours';
+};
+
+const getLocalClock = (date: Date) =>
+  date.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+
 const whyItWorks = [
   {
     title: 'Adaptive sound engine',
@@ -66,6 +79,7 @@ const useCases = [
 export default function Home() {
   const [selectedCase, setSelectedCase] = useState(useCases[0]);
   const [statusIndex, setStatusIndex] = useState(0);
+  const [currentTime, setCurrentTime] = useState(() => new Date());
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -75,48 +89,53 @@ export default function Home() {
     return () => window.clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const timeLine = `${getLocalClock(currentTime)} — ${getServiceWindow(currentTime.getHours())}`;
+
   return (
     <>
-      <Section className="relative min-h-[85svh] overflow-hidden pb-36 pt-12 sm:min-h-[78svh] sm:pt-16">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(47,111,94,0.32),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(144,166,159,0.26),transparent_42%),radial-gradient(circle_at_50%_100%,rgba(17,32,29,0.28),transparent_52%),linear-gradient(145deg,#f5f2ec_0%,#e8f0ec_42%,#f4eee7_100%)]" />
-        <div className="hero-aurora pointer-events-none absolute inset-0" />
-        <div className="hero-vignette pointer-events-none absolute inset-0" />
-        <div className="hero-orb hero-orb-1" />
-        <div className="hero-orb hero-orb-2" />
-        <div className="hero-orb hero-orb-3" />
-        <div className="hero-noise pointer-events-none absolute inset-0" />
+      <Section className="relative min-h-[100svh] overflow-hidden bg-[#0F1115] pb-20 pt-16 sm:pt-20">
+        <div className="pointer-events-none absolute inset-0 bg-[#0F1115]" />
+        <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(90%_70%_at_12%_14%,rgba(39,47,66,0.36),transparent_70%),radial-gradient(90%_70%_at_82%_10%,rgba(35,40,54,0.24),transparent_66%),radial-gradient(75%_70%_at_50%_96%,rgba(20,24,33,0.5),transparent_68%)] animate-[aurora-drift_44s_ease-in-out_infinite_alternate]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,transparent_40%,rgba(5,7,10,0.44)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.16] mix-blend-soft-light [background-image:radial-gradient(rgba(255,255,255,0.6)_0.5px,transparent_0.5px)] [background-size:3px_3px]" />
 
-        <div className="relative z-10 space-y-7">
-          <p className="hero-reveal text-[0.65rem] uppercase tracking-[0.24em] text-text-muted">Commercial sound, beautifully automated</p>
-          <h1 className="hero-reveal max-w-3xl text-5xl leading-[0.94] tracking-tight text-[#10221c] drop-shadow-[0_2px_0_rgba(255,255,255,0.28)] sm:text-6xl">
-            Give your space a{' '}
-            <span className="bg-gradient-to-r from-[#1b4a3d] via-[#2f6f5e] to-[#5f9383] bg-clip-text text-transparent">premium pulse</span>.
-          </h1>
-          <p className="hero-reveal max-w-xl text-base leading-relaxed text-text-muted sm:text-lg">
-            Bynoral creates continuous, non-repeating soundscapes for cafés, studios and clinics—so every hour feels on-brand.
-          </p>
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-7rem)] w-full max-w-5xl flex-col justify-center gap-10">
+          <div className="space-y-8">
+            <h1 className="max-w-4xl text-5xl font-medium leading-[0.92] tracking-[-0.02em] text-[#F4F6FA] sm:text-6xl lg:text-7xl">
+              Music is the mood.
+              <br />
+              Most businesses treat it as an afterthought.
+            </h1>
 
-          <div className="hero-reveal flex flex-wrap items-center gap-3 pt-1">
-            <Link
-              href="/player"
-              className="hero-cta group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-accent/80 bg-gradient-to-b from-accent to-[#245547] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_34px_rgba(47,111,94,0.35)] transition duration-300 hover:-translate-y-0.5 active:translate-y-[1px] active:scale-[0.985]"
-            >
-              <span className="relative z-10">Start playing</span>
-            </Link>
-            <Link
-              href="/how-it-works"
-              className="hero-cta inline-flex items-center rounded-full border border-border/80 bg-white/75 px-5 py-3 text-sm font-medium text-text-primary backdrop-blur transition hover:border-accent/50 active:translate-y-[1px] active:scale-[0.985]"
-            >
-              Explore product
-            </Link>
+            <p className="max-w-max font-mono text-[0.68rem] uppercase tracking-[0.2em] text-[#A3ACBC]">
+              {timeLine}
+              <br />
+              <span className="text-[#7D8698]">System ready.</span>
+            </p>
+
+            <p className="pointer-events-none pl-3 font-['Caveat',cursive] text-xl text-[#C8CEDA]/30 rotate-[-4deg] sm:pl-10">set and forget.</p>
           </div>
 
-          <div className="hero-reveal flex flex-wrap gap-2 pt-1 text-[0.66rem] uppercase tracking-[0.18em] text-text-muted">
-            {['No ads', 'No vocals', 'No repetition', 'No PRS/PPL needed'].map((item) => (
-              <span key={item} className="rounded-full border border-white/50 bg-white/55 px-3 py-1.5 backdrop-blur">
-                {item}
-              </span>
-            ))}
+          <div className="flex flex-col items-center gap-3 pt-2">
+            <Link
+              href="/player"
+              aria-label="Start Session"
+              className="group relative inline-flex h-28 w-28 items-center justify-center rounded-full border border-white/15 bg-[radial-gradient(circle_at_30%_28%,#2B303C_0%,#1A1E27_55%,#141820_100%)] text-[#E7EBF2] shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_0_38px_rgba(113,129,162,0.16),0_18px_48px_rgba(0,0,0,0.48)] transition duration-300 hover:border-white/25"
+            >
+              <span className="absolute inset-[-8px] rounded-full bg-[radial-gradient(circle,rgba(120,133,160,0.24)_0%,transparent_70%)] opacity-80" />
+              <svg viewBox="0 0 24 24" className="relative z-10 h-8 w-8 translate-x-0.5 fill-current" aria-hidden="true">
+                <path d="M8 6v12l10-6-10-6Z" />
+              </svg>
+            </Link>
+            <span className="text-xs uppercase tracking-[0.22em] text-[#9AA4B6]">Start Session</span>
           </div>
         </div>
       </Section>
