@@ -16,7 +16,28 @@ const vibeDescriptions: Record<(typeof vibes)[number], string> = {
   Dusk: 'Slower, softer, settled'
 };
 
-const demoTrackPath = '/audio/track10-james.mp3';
+const sessionModes = ['Morning', 'Midday', 'After Hours'] as const;
+type SessionMode = (typeof sessionModes)[number];
+
+const sessionModeTracks: Record<SessionMode, string> = {
+  Morning: '/audio/morning-session.mp3',
+  Midday: '/audio/midday-session.mp3',
+  'After Hours': '/audio/after-hours-session.mp3'
+};
+
+function getDefaultSessionModeByTime(): SessionMode {
+  const hour = new Date().getHours();
+
+  if (hour < 12) {
+    return 'Morning';
+  }
+
+  if (hour < 18) {
+    return 'Midday';
+  }
+
+  return 'After Hours';
+}
 
 function formatElapsed(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60)
@@ -32,10 +53,14 @@ export default function PlayerPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [sessionMode, setSessionMode] = useState<SessionMode>(() => getDefaultSessionModeByTime());
   const [selectedVibe, setSelectedVibe] = useState<(typeof vibes)[number]>('Balanced');
   const [intensity, setIntensity] = useState(50);
   const [reduceChatter, setReduceChatter] = useState(false);
+  const [playbackMessage, setPlaybackMessage] = useState('');
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const selectedTrackPath = useMemo(() => sessionModeTracks[sessionMode], [sessionMode]);
 
   const status = useMemo(() => `Running for ${formatElapsed(currentTime)}`, [currentTime]);
   const nowPlayingLine = useMemo(
@@ -51,16 +76,51 @@ export default function PlayerPage() {
 
     if (audio.paused) {
       try {
+        setPlaybackMessage('');
         await audio.play();
         setIsPlaying(true);
       } catch {
         setIsPlaying(false);
+        setPlaybackMessage('Tap again to start audio');
       }
       return;
     }
 
     audio.pause();
     setIsPlaying(false);
+    setPlaybackMessage('');
+  };
+
+  const handleModeChange = async (mode: SessionMode) => {
+    const audio = audioRef.current;
+    const shouldResumePlayback = Boolean(audio && !audio.paused);
+
+    setSessionMode(mode);
+    setCurrentTime(0);
+    setDuration(0);
+    setPlaybackMessage('');
+
+    if (!audio) {
+      return;
+    }
+
+    audio.pause();
+    audio.currentTime = 0;
+    audio.src = sessionModeTracks[mode];
+    audio.load();
+
+    if (!shouldResumePlayback) {
+      setIsPlaying(false);
+      return;
+    }
+
+    try {
+      await audio.play();
+      setIsPlaying(true);
+    } catch {
+      setIsPlaying(false);
+      setPlaybackMessage('Tap again to start audio');
+    }
   };
 
   return (
@@ -84,7 +144,7 @@ export default function PlayerPage() {
         <Card className="space-y-9 rounded-[2rem] border-border/80 bg-surface/95 p-8 shadow-[0_24px_64px_rgba(20,20,20,0.12)] sm:p-11">
           <audio
             ref={audioRef}
-            src={demoTrackPath}
+            src={selectedTrackPath}
             preload="metadata"
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
@@ -120,11 +180,13 @@ export default function PlayerPage() {
                   aria-hidden="true"
                 />
               ) : null}
-              <span className="relative z-10">{isPlaying ? 'Pause' : 'Play'}</span>
+              <span className="relative z-10">{isPlaying ? 'Pause Session' : 'Start Session'}</span>
             </button>
 
+            {playbackMessage ? <p className="text-xs text-text-muted">{playbackMessage}</p> : null}
+
             <p className="text-xs uppercase tracking-[0.18em] text-text-muted">Now playing</p>
-            <p className="text-sm text-text-primary sm:text-base">{nowPlayingLine}</p>
+            <p className="text-sm text-text-primary sm:text-base">{sessionMode} — {nowPlayingLine}</p>
 
             <div className="flex items-center gap-2 text-sm text-text-muted">
               <span
@@ -165,6 +227,34 @@ export default function PlayerPage() {
                 <span>{formatElapsed(currentTime)}</span>
                 <span>{formatElapsed(duration)}</span>
               </div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.18em] text-text-muted">Mode</p>
+            <div className="flex flex-wrap gap-2.5">
+              {sessionModes.map((mode) => {
+                const selected = sessionMode === mode;
+
+                return (
+                  <button
+                    key={mode}
+                    type="button"
+                    onClick={() => void handleModeChange(mode)}
+                    className={[
+                      'rounded-full border px-4 py-2.5 text-sm transition duration-200 focus-visible:outline-none focus-visible:ring-4',
+                      'active:translate-y-[1px]',
+                      selected
+                        ? 'border-accent/80 bg-accent text-surface shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_8px_16px_rgba(47,111,94,0.2)] focus-visible:ring-accent/30'
+                        : 'border-border bg-surface text-text-muted shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] hover:border-border/80 hover:text-text-primary focus-visible:ring-text-primary/15'
+                    ]
+                      .join(' ')
+                      .trim()}
+                  >
+                    {mode}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
