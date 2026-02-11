@@ -19,10 +19,12 @@ const vibeDescriptions: Record<(typeof vibes)[number], string> = {
 const sessionModes = ['Morning', 'Midday', 'After Hours'] as const;
 type SessionMode = (typeof sessionModes)[number];
 
+const demoTrackPath = '/audio/track-demo.mp3';
+
 const sessionModeTracks: Record<SessionMode, string> = {
-  Morning: '/audio/morning-session.mp3',
-  Midday: '/audio/midday-session.mp3',
-  'After Hours': '/audio/after-hours-session.mp3'
+  Morning: demoTrackPath,
+  Midday: demoTrackPath,
+  'After Hours': demoTrackPath
 };
 
 function getDefaultSessionModeByTime(): SessionMode {
@@ -145,7 +147,8 @@ export default function PlayerPage() {
           <audio
             ref={audioRef}
             src={selectedTrackPath}
-            preload="metadata"
+            preload="auto"
+            playsInline
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
             onEnded={() => setIsPlaying(false)}
@@ -157,7 +160,7 @@ export default function PlayerPage() {
             <button
               type="button"
               onClick={togglePlayback}
-              aria-label={isPlaying ? 'Pause playback' : 'Start playback'}
+              aria-label={isPlaying ? 'Pause playback' : 'Play playback'}
               className={[
                 'relative inline-flex h-36 w-36 items-center justify-center rounded-full border text-lg font-medium text-surface transition duration-300',
                 'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30',
@@ -180,7 +183,7 @@ export default function PlayerPage() {
                   aria-hidden="true"
                 />
               ) : null}
-              <span className="relative z-10">{isPlaying ? 'Pause Session' : 'Start Session'}</span>
+              <span className="relative z-10">{isPlaying ? 'Pause' : 'Play'}</span>
             </button>
 
             {playbackMessage ? <p className="text-xs text-text-muted">{playbackMessage}</p> : null}
