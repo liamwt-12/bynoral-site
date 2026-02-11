@@ -1,41 +1,45 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 import { Container } from './Container';
 
-const navLinks = [
-  { href: '/how-it-works', label: 'How it works' },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/faq', label: 'FAQ' }
-];
-
 export function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-30 border-b border-border/70 bg-background/90 backdrop-blur-xl">
-      <Container className="flex h-16 items-center justify-between gap-4 sm:h-20 sm:gap-8">
+    <header
+      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
+        scrolled
+          ? 'border-b border-white/10 bg-[#0B1018]/70 backdrop-blur-xl'
+          : 'border-b border-transparent bg-transparent backdrop-blur-0'
+      }`}
+    >
+      <Container className="flex h-16 items-center justify-between gap-4 sm:h-20">
         <Link
           href="/"
-          className="font-heading text-xl tracking-tight text-text-primary focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-text-primary/15"
+          className="font-heading text-xl tracking-tight text-[#E7EBF2] transition-colors hover:text-[#F2F5FA] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/20"
         >
           Bynoral
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-9 md:flex lg:gap-10">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm text-text-muted transition duration-200 hover:text-text-primary focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-text-primary/15"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
         <Link
-          href="/player"
-          className="inline-flex items-center justify-center rounded-full border border-accent bg-accent px-4 py-2 text-xs font-medium text-surface shadow-[0_8px_22px_rgba(47,111,94,0.22)] transition duration-200 hover:-translate-y-0.5 hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30 sm:px-5 sm:py-2.5 sm:text-sm"
+          href="/founding-50"
+          className="text-sm font-medium tracking-[0.08em] text-[#C9D2E3] uppercase transition-colors hover:text-[#F0F4FA] focus-visible:rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/20"
         >
-          Start playing
+          Apply
         </Link>
       </Container>
     </header>

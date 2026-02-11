@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fraunces.variable} ${inter.variable} bg-background font-body text-text-primary antialiased`}>
+      <body className={`${fraunces.variable} ${inter.variable} bg-[#0F1115] font-body text-[#E8ECF3] antialiased`}>
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="page-enter flex-1">{children}</main>
