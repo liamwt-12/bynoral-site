@@ -70,9 +70,24 @@
 }
 
 .hero-noise {
-  background-image: radial-gradient(rgba(18, 25, 22, 0.1) 0.7px, transparent 0.7px);
+  background-image: radial-gradient(rgba(18, 25, 22, 0.14) 0.7px, transparent 0.7px);
   background-size: 3px 3px;
-  opacity: 0.15;
+  opacity: 0.2;
+  mix-blend-mode: multiply;
+}
+
+.hero-aurora {
+  background: radial-gradient(circle at 18% 30%, rgba(117, 168, 154, 0.26), transparent 48%),
+    radial-gradient(circle at 82% 18%, rgba(47, 111, 94, 0.2), transparent 42%),
+    radial-gradient(circle at 52% 82%, rgba(26, 52, 44, 0.22), transparent 56%);
+  background-size: 140% 140%;
+  animation: aurora-drift 26s ease-in-out infinite alternate;
+}
+
+.hero-vignette {
+  background: radial-gradient(circle at 50% 38%, transparent 42%, rgba(8, 15, 13, 0.32) 100%),
+    radial-gradient(circle at 8% 6%, rgba(10, 18, 15, 0.2), transparent 40%),
+    radial-gradient(circle at 92% 6%, rgba(10, 18, 15, 0.14), transparent 36%);
   mix-blend-mode: multiply;
 }
 
@@ -117,6 +132,19 @@
   transform: translateX(120%);
 }
 
+.hero-cta:active {
+  transition-duration: 120ms;
+}
+
+.live-badge {
+  animation: live-pulse 2.4s ease-in-out infinite;
+}
+
+.preview-progress {
+  transform-origin: left center;
+  animation: progress-loop 4.8s ease-in-out infinite;
+}
+
 .playing-ring::after {
   content: '';
   position: absolute;
@@ -149,6 +177,10 @@
 
 .equalizer.playing span:nth-child(4) {
   animation-delay: 80ms;
+}
+
+.equalizer.playing span:nth-child(5) {
+  animation-delay: 180ms;
 }
 
 .marquee-content {
@@ -189,11 +221,14 @@
   .hero-orb-1,
   .hero-orb-2,
   .hero-orb-3,
+  .hero-aurora,
   .hero-reveal,
   .playing-ring::after,
   .equalizer.playing span,
   .marquee-content,
   .hero-cta::after,
+  .live-badge,
+  .preview-progress,
   .mobile-player-alive {
     animation: none !important;
     transition: none !important;
@@ -319,6 +354,52 @@
   100% {
     transform: translateX(65%);
     opacity: 0;
+  }
+}
+
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(2%, 3%, 0) scale(1.06);
+  }
+
+  100% {
+    transform: translate3d(4%, -3%, 0) scale(1.02);
+  }
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(110, 231, 183, 0.08);
+    background-color: rgba(16, 185, 129, 0.08);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(110, 231, 183, 0);
+    background-color: rgba(16, 185, 129, 0.18);
+  }
+}
+
+@keyframes progress-loop {
+  0% {
+    transform: scaleX(0.26);
+  }
+
+  45% {
+    transform: scaleX(0.82);
+  }
+
+  80% {
+    transform: scaleX(0.58);
+  }
+
+  100% {
+    transform: scaleX(0.3);
   }
 }
 
