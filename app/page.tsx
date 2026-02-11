@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Card, Section } from '../components';
 
-const trustedBy = ['Atelier North', 'Foundry Coffee', 'Luma Pilates', 'Verde Clinic'];
+const trustedBy = ['Aster Studio', 'Northline Co.', 'Marlow Clinics', 'Pine & Beam', 'Foundry Coffee', 'Luma Pilates', 'Verde Clinic', 'Atelier North'];
+
+const liveStatuses = ['Shaping ambience…', 'Reducing chatter…', 'Smoothing transitions…'];
 
 const whyItWorks = [
   {
@@ -63,11 +65,22 @@ const useCases = [
 
 export default function Home() {
   const [selectedCase, setSelectedCase] = useState(useCases[0]);
+  const [statusIndex, setStatusIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setStatusIndex((current) => (current + 1) % liveStatuses.length);
+    }, 3000);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   return (
     <>
-      <Section className="relative overflow-hidden pb-24 pt-12 sm:pt-16">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(47,111,94,0.28),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(144,166,159,0.3),transparent_42%),radial-gradient(circle_at_50%_100%,rgba(40,73,64,0.25),transparent_48%),linear-gradient(145deg,#f7f4ef_0%,#eef5f2_42%,#f8f2ec_100%)]" />
+      <Section className="relative min-h-[85svh] overflow-hidden pb-36 pt-12 sm:min-h-[78svh] sm:pt-16">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(47,111,94,0.32),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(144,166,159,0.26),transparent_42%),radial-gradient(circle_at_50%_100%,rgba(17,32,29,0.28),transparent_52%),linear-gradient(145deg,#f5f2ec_0%,#e8f0ec_42%,#f4eee7_100%)]" />
+        <div className="hero-aurora pointer-events-none absolute inset-0" />
+        <div className="hero-vignette pointer-events-none absolute inset-0" />
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />
         <div className="hero-orb hero-orb-3" />
@@ -75,9 +88,9 @@ export default function Home() {
 
         <div className="relative z-10 space-y-7">
           <p className="hero-reveal text-[0.65rem] uppercase tracking-[0.24em] text-text-muted">Commercial sound, beautifully automated</p>
-          <h1 className="hero-reveal max-w-3xl text-5xl leading-[0.94] tracking-tight sm:text-6xl">
+          <h1 className="hero-reveal max-w-3xl text-5xl leading-[0.94] tracking-tight text-[#10221c] drop-shadow-[0_2px_0_rgba(255,255,255,0.28)] sm:text-6xl">
             Give your space a{' '}
-            <span className="bg-gradient-to-r from-[#25584b] via-accent to-[#75a89a] bg-clip-text text-transparent">premium pulse</span>.
+            <span className="bg-gradient-to-r from-[#1b4a3d] via-[#2f6f5e] to-[#5f9383] bg-clip-text text-transparent">premium pulse</span>.
           </h1>
           <p className="hero-reveal max-w-xl text-base leading-relaxed text-text-muted sm:text-lg">
             Bynoral creates continuous, non-repeating soundscapes for cafés, studios and clinics—so every hour feels on-brand.
@@ -86,13 +99,13 @@ export default function Home() {
           <div className="hero-reveal flex flex-wrap items-center gap-3 pt-1">
             <Link
               href="/player"
-              className="hero-cta group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-accent/80 bg-gradient-to-b from-accent to-[#245547] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_34px_rgba(47,111,94,0.35)] transition duration-300 hover:-translate-y-0.5"
+              className="hero-cta group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-accent/80 bg-gradient-to-b from-accent to-[#245547] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_34px_rgba(47,111,94,0.35)] transition duration-300 hover:-translate-y-0.5 active:translate-y-[1px] active:scale-[0.985]"
             >
               <span className="relative z-10">Start playing</span>
             </Link>
             <Link
               href="/how-it-works"
-              className="inline-flex items-center rounded-full border border-border/80 bg-white/65 px-5 py-3 text-sm font-medium text-text-primary backdrop-blur transition hover:border-accent/50"
+              className="hero-cta inline-flex items-center rounded-full border border-border/80 bg-white/75 px-5 py-3 text-sm font-medium text-text-primary backdrop-blur transition hover:border-accent/50 active:translate-y-[1px] active:scale-[0.985]"
             >
               Explore product
             </Link>
@@ -108,11 +121,11 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="-mt-20 pt-0 sm:-mt-12">
+      <Section className="-mt-28 pt-0 sm:-mt-16">
         <div className="mobile-player-alive relative overflow-hidden rounded-[2rem] border border-white/50 bg-gradient-to-b from-white/90 to-white/70 p-5 shadow-[0_24px_65px_rgba(19,30,27,0.15)] backdrop-blur">
           <div className="mb-4 flex items-center justify-between text-xs text-text-muted">
             <span className="uppercase tracking-[0.17em]">Live product preview</span>
-            <span>Now shaping ambience</span>
+            <span>{liveStatuses[statusIndex]}</span>
           </div>
           <div className="rounded-2xl border border-accent/15 bg-[#111a17] p-4 text-white">
             <div className="mb-4 h-32 rounded-xl bg-[radial-gradient(circle_at_20%_30%,rgba(117,168,154,0.36),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(47,111,94,0.48),transparent_45%),linear-gradient(125deg,#172621,#0e1714)] p-3">
@@ -121,6 +134,7 @@ export default function Home() {
                 <span style={{ height: '24px' }} />
                 <span style={{ height: '16px' }} />
                 <span style={{ height: '22px' }} />
+                <span style={{ height: '18px' }} />
               </div>
             </div>
             <div className="space-y-3">
@@ -129,14 +143,14 @@ export default function Home() {
                   <p className="text-sm font-medium text-white">Balanced / Midday Lift</p>
                   <p className="text-xs text-emerald-100/75">Intensity 62% • Dynamic mode</p>
                 </div>
-                <span className="rounded-full border border-emerald-200/40 px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.16em]">Live</span>
+                <span className="live-badge rounded-full border border-emerald-200/40 px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.16em]">Live</span>
               </div>
               <div className="h-1.5 rounded-full bg-white/20">
-                <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-emerald-200 to-emerald-400" />
+                <div className="preview-progress h-full w-2/3 rounded-full bg-gradient-to-r from-emerald-200 to-emerald-400" />
               </div>
               <div className="flex items-center gap-2 text-xs text-emerald-100/80">
                 <span className="h-2 w-2 rounded-full bg-emerald-300" />
-                Smoothly adapting to room energy
+                {liveStatuses[statusIndex]}
               </div>
             </div>
           </div>
@@ -147,20 +161,28 @@ export default function Home() {
         <div className="space-y-8">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.2em] text-text-muted">Trusted by</p>
-            <div className="flex flex-wrap gap-2">
-              {trustedBy.map((name) => (
-                <span key={name} className="rounded-full border border-border/80 bg-surface/85 px-3 py-2 text-xs font-medium text-text-muted">
-                  {name}
-                </span>
-              ))}
+            <div className="overflow-hidden rounded-2xl border border-border/70 bg-surface/70 p-2">
+              <div className="marquee-content flex min-w-max items-center gap-2 pr-2">
+                {[...trustedBy, ...trustedBy].map((name, index) => (
+                  <span key={`${name}-${index}`} className="rounded-full border border-border/80 bg-white/80 px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text-muted">
+                    {name}
+                  </span>
+                ))}
+              </div>
             </div>
+          </div>
+
+          <div className="grid gap-2 rounded-2xl border border-accent/15 bg-accent/5 p-4 text-center text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-accent sm:grid-cols-3 sm:text-xs">
+            <span className="rounded-full border border-accent/20 bg-white/80 px-3 py-2">PRS/PPL safe</span>
+            <span className="rounded-full border border-accent/20 bg-white/80 px-3 py-2">No adverts</span>
+            <span className="rounded-full border border-accent/20 bg-white/80 px-3 py-2">Never repeats</span>
           </div>
 
           <div>
             <h2 className="mb-4 text-3xl leading-tight sm:text-4xl">Why it works</h2>
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="-mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-1 sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 sm:[grid-template-columns:repeat(3,minmax(0,1fr))]">
               {whyItWorks.map((item) => (
-                <Card key={item.title} className="space-y-3 border-white/65 bg-white/70 p-5">
+                <Card key={item.title} className="min-w-[84%] snap-start space-y-3 border-white/65 bg-white/78 p-5 sm:min-w-0">
                   <div className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent">
                     {item.icon}
                   </div>
@@ -203,7 +225,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/player"
-              className="hero-cta inline-flex items-center justify-center rounded-full border border-accent/80 bg-gradient-to-b from-accent to-[#25584b] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(47,111,94,0.32)]"
+              className="hero-cta inline-flex items-center justify-center rounded-full border border-accent/80 bg-gradient-to-b from-accent to-[#25584b] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(47,111,94,0.32)] active:translate-y-[1px] active:scale-[0.985]"
             >
               Start free
             </Link>
