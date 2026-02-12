@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Section } from '../components';
+import { Section, StatsStrip, TrustStack } from '../components';
 
 type SessionMode = 'Morning' | 'Midday' | 'After Hours';
 
@@ -13,9 +13,30 @@ const sessionModeTracks: Record<SessionMode, string> = {
   'After Hours': '/audio/after-hours.mp3'
 };
 
+const modeTint: Record<SessionMode, string> = {
+  Morning: 'bg-[radial-gradient(circle_at_15%_15%,rgba(198,147,74,0.12),transparent_62%)]',
+  Midday: 'bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.08),transparent_60%)]',
+  'After Hours': 'bg-[radial-gradient(circle_at_85%_20%,rgba(198,147,74,0.1),transparent_58%)]'
+};
+
+const faqs = [
+  {
+    question: 'What do I play it on?',
+    answer: 'Any device with a browser and your speaker setup — iPad, laptop, or front-counter terminal.'
+  },
+  {
+    question: 'Can staff control it quickly?',
+    answer: 'Yes. Start/stop, room balance, and service mode can be adjusted in seconds.'
+  },
+  {
+    question: 'Can this fit a licensed venue?',
+    answer: 'Yes. Bynoral is designed to sit calmly alongside venues that already run a public music licence.'
+  }
+];
+
 function getServiceWindow(hour: number): SessionMode {
-  if (hour >= 6 && hour < 11) return 'Morning';
-  if (hour >= 11 && hour < 17) return 'Midday';
+  if (hour >= 7 && hour < 11) return 'Morning';
+  if (hour >= 11 && hour < 19) return 'Midday';
   return 'After Hours';
 }
 
@@ -101,7 +122,7 @@ export default function Home() {
         containerClassName="max-w-6xl"
       >
         <video
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-60"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-65"
           autoPlay={!prefersReducedMotion}
           loop={!prefersReducedMotion}
           muted
@@ -110,7 +131,8 @@ export default function Home() {
         >
           <source src="/video/cafe-loop.mp4" type="video/mp4" />
         </video>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(15,20,25,0.55),rgba(15,20,25,0.82))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(15,20,25,0.45),rgba(15,20,25,0.78))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[rgba(198,147,74,0.06)]" />
 
         <audio
           ref={audioRef}
@@ -122,51 +144,48 @@ export default function Home() {
           onEnded={() => setIsPlaying(false)}
         />
 
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-5xl flex-col justify-center gap-8 sm:gap-10">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-5xl flex-col justify-center gap-10 sm:gap-12">
           <div className="space-y-5">
-            <h1 className="max-w-4xl text-4xl leading-[0.95] tracking-[-0.02em] text-text-primary sm:text-6xl lg:text-7xl">
+            <h1 className="max-w-4xl text-4xl leading-[0.95] tracking-[-0.02em] text-white sm:text-6xl lg:text-7xl">
               Music for cafés.
               <br />
               Done properly.
             </h1>
 
-            <p className="max-w-2xl text-base text-text-muted sm:text-xl">Set it once. Let it run all day.</p>
+            <p className="max-w-2xl text-base text-white/85 sm:text-xl">Set it once. Let it run all day.</p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => void togglePlayback()}
-                className="hero-cta inline-flex items-center justify-center rounded-full border border-accent bg-accent px-7 py-3 text-sm font-semibold tracking-[0.12em] text-[#121417] transition duration-200 hover:brightness-105 active:scale-[0.99]"
+                className="hero-cta inline-flex items-center justify-center rounded-full border border-accent bg-accent px-7 py-3 text-sm font-semibold tracking-[0.12em] text-[#12161c] transition duration-200 hover:brightness-105 active:scale-[0.99]"
               >
                 Start session
               </button>
               <div className="space-y-1">
                 <Link
                   href="/founding-50"
-                  className="hero-cta inline-flex items-center justify-center rounded-full border border-border-dark px-7 py-3 text-sm font-semibold tracking-[0.12em] text-text-primary transition duration-200 hover:border-white/35 active:scale-[0.99]"
+                  className="hero-cta inline-flex items-center justify-center rounded-full border border-border-dark bg-white/[0.02] px-7 py-3 text-sm font-semibold tracking-[0.12em] text-white transition duration-200 hover:bg-white/[0.08] hover:border-white/40 active:scale-[0.99]"
                 >
                   Apply for founding 50
                 </Link>
-                <p className="text-xs text-text-muted">3 months free. No card required.</p>
+                <p className="text-xs text-white/72">3 months free. No card required.</p>
               </div>
             </div>
 
-            <div className="grid max-w-2xl gap-2 pt-2 text-sm text-text-muted sm:grid-cols-3">
-              <p>Built in the UK</p>
-              <p>Designed for independent cafés</p>
-              <p>Founder-led</p>
-            </div>
+            <TrustStack />
           </div>
 
           <div
             id="homepage-player"
-            className="mobile-player-alive max-w-lg rounded-2xl border border-border-dark bg-[#11171d]/78 p-5 backdrop-blur-md transition duration-300 md:hover:-translate-y-0.5 md:hover:border-white/20 sm:p-7"
+            className="mobile-player-alive relative max-w-lg overflow-hidden rounded-3xl border border-border-dark bg-[rgba(15,20,25,0.72)] p-5 shadow-[0_22px_40px_-28px_rgba(0,0,0,0.7)] backdrop-blur-md transition duration-300 md:hover:-translate-y-0.5 md:hover:border-white/20 sm:p-7"
           >
-            <div className="space-y-5">
+            <div className={`pointer-events-none absolute inset-0 opacity-90 transition-all duration-500 ${modeTint[sessionMode]}`} />
+            <div className="relative space-y-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-[0.68rem] uppercase tracking-[0.17em] text-text-muted">Current mode</p>
-                  <p className="mt-1 text-2xl text-text-primary">{sessionMode}</p>
+                  <p className="mt-1 text-2xl text-white">{sessionMode}</p>
                 </div>
                 <p className="text-xs uppercase tracking-[0.15em] text-text-muted">{isPlaying ? 'System live' : 'System ready'}</p>
               </div>
@@ -177,10 +196,10 @@ export default function Home() {
                     key={mode}
                     type="button"
                     onClick={() => setSessionMode(mode)}
-                    className={`rounded-full border px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] transition duration-200 active:scale-[0.98] ${
+                    className={`rounded-lg border px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] transition duration-200 active:scale-[0.98] ${
                       mode === sessionMode
-                        ? 'border-accent bg-accent text-[#121417]'
-                        : 'border-border-dark text-text-muted hover:border-white/30 hover:text-text-primary'
+                        ? 'border-white/30 bg-white/10 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]'
+                        : 'border-border-dark text-text-muted hover:border-white/25 hover:text-white'
                     }`}
                   >
                     {mode}
@@ -192,23 +211,24 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => void togglePlayback()}
-                  className="rounded-full border border-accent/80 px-5 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#f7e3c5] transition duration-200 hover:border-accent active:scale-[0.98]"
+                  className="rounded-full border border-accent bg-accent/10 px-5 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#f2d8b1] transition duration-200 hover:bg-accent/20 active:scale-[0.98]"
                 >
                   {isPlaying ? 'Stop' : 'Start'}
                 </button>
 
                 <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-text-muted">
-                  <span className={`h-2.5 w-2.5 rounded-full bg-accent ${isPlaying ? 'live-badge' : ''}`} aria-hidden="true" />
-                  LIVE
+                  <span
+                    className={`h-2.5 w-2.5 rounded-full ${isPlaying ? 'live-badge bg-accent shadow-[0_0_8px_rgba(198,147,74,0.8)]' : 'bg-white/35'}`}
+                    aria-hidden="true"
+                  />
+                  {isPlaying ? 'Live' : 'Ready'}
                 </div>
               </div>
 
               <div className="flex items-center justify-between gap-5">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.15em] text-text-primary">Room Balance</p>
-                  <p className="mt-1 text-xs text-text-muted">
-                    {roomBalanceEnabled ? 'Balancing background chatter' : 'Off'}
-                  </p>
+                  <p className="text-xs uppercase tracking-[0.15em] text-white">Room Balance</p>
+                  <p className="mt-1 text-xs text-text-muted">Balancing background chatter</p>
                 </div>
 
                 <button
@@ -219,13 +239,15 @@ export default function Home() {
                   className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.15em] text-text-muted"
                 >
                   <span
-                    className={`relative inline-flex h-5 w-10 rounded-full transition ${
-                      roomBalanceEnabled ? 'bg-accent/80' : 'bg-white/25'
+                    className={`relative inline-flex h-6 w-11 rounded-full border transition ${
+                      roomBalanceEnabled
+                        ? 'border-accent/70 bg-accent/25 shadow-[0_0_10px_rgba(198,147,74,0.3)]'
+                        : 'border-white/20 bg-white/10'
                     }`}
                   >
                     <span
-                      className={`absolute top-0.5 h-4 w-4 rounded-full bg-background transition ${
-                        roomBalanceEnabled ? 'left-[1.3rem]' : 'left-0.5'
+                      className={`absolute top-0.5 h-[1.125rem] w-[1.125rem] rounded-full bg-white transition ${
+                        roomBalanceEnabled ? 'left-[1.45rem]' : 'left-0.5'
                       }`}
                     />
                   </span>
@@ -238,13 +260,13 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-4xl">
+      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-5xl">
         <div className="space-y-6">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-text-light-muted">Why Bynoral exists</p>
           <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">
             Staff shouldn’t have to DJ the room.
           </h2>
-          <div className="space-y-3 text-lg leading-relaxed text-text-light-muted">
+          <div className="max-w-3xl space-y-3 text-lg leading-relaxed text-text-light-muted">
             <p>Phones disconnect. Shifts change. The atmosphere drifts.</p>
             <p>Bynoral keeps the room steady, from first coffees to late-afternoon wind-down.</p>
             <p>Quietly reliable. Always on-brand.</p>
@@ -252,43 +274,65 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="bg-background py-16 text-text-primary sm:py-24" containerClassName="max-w-4xl">
-        <div className="space-y-7">
-          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">Better than a playlist.</h2>
-          <ul className="space-y-2 text-lg text-text-muted">
+      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-5xl">
+        <div className="space-y-8 border-y border-border-light py-8 sm:py-10">
+          <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">Better than a playlist.</h2>
+          <ul className="space-y-2 text-lg text-text-light-muted">
             <li>• No ads</li>
             <li>• No vocals</li>
             <li>• No awkward gaps</li>
             <li>• Built for public spaces</li>
             <li>• Runs automatically</li>
           </ul>
+          <StatsStrip />
+        </div>
+      </Section>
 
-          <div className="rounded-2xl border border-border-dark bg-[#12191f] p-6 text-sm text-text-muted md:hover:-translate-y-0.5 md:hover:border-white/20 md:transition">
-            <h3 className="text-xl text-text-primary">Commercial use. Covered.</h3>
-            <ul className="mt-4 space-y-2">
+      <Section className="bg-background py-16 text-text-primary sm:py-24" containerClassName="max-w-5xl">
+        <div className="space-y-7">
+          <div className="max-w-3xl rounded-2xl border border-border-dark bg-[rgba(15,20,25,0.72)] p-6 text-sm text-text-muted shadow-[0_18px_35px_-30px_rgba(0,0,0,0.7)] backdrop-blur-sm sm:p-8">
+            <h3 className="text-2xl text-white">Commercial use. Covered.</h3>
+            <ul className="mt-4 space-y-2 text-base">
               <li>No mainstream catalogue</li>
               <li>No ads</li>
               <li>No vocals</li>
               <li>Built for public spaces</li>
             </ul>
+            <p className="mt-5 text-sm text-white/72">
+              If you currently use a public music licence, keep doing so — Bynoral is designed to fit into licensed venues.
+            </p>
           </div>
         </div>
       </Section>
 
-      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-4xl">
-        <div className="space-y-6 rounded-2xl border border-border-light bg-surface p-8 sm:p-10">
-          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">Founding 50 cafés.</h2>
-          <p className="text-lg text-text-light-muted">
+      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-5xl">
+        <div className="space-y-5 rounded-3xl border border-border-light bg-[#faf8f4] p-7 shadow-[0_20px_34px_-30px_rgba(18,22,28,0.45)] sm:p-10">
+          <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">Founding 50 cafés.</h2>
+          <p className="max-w-2xl text-lg text-text-light-muted">
             We’re onboarding 50 independent cafés and shaping Bynoral with them.
           </p>
           <div className="space-y-1">
             <Link
               href="/founding-50"
-              className="hero-cta inline-flex items-center gap-2 rounded-full border border-accent bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#121417] transition duration-200 hover:brightness-105 active:scale-[0.99]"
+              className="hero-cta inline-flex items-center gap-2 rounded-full border border-accent bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#12161c] transition duration-200 hover:brightness-105 active:scale-[0.99]"
             >
               Apply for founding 50 <span aria-hidden="true">→</span>
             </Link>
             <p className="text-xs text-text-light-muted">3 months free. No card required.</p>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="bg-surface pt-0 text-text-light-primary sm:pt-0" containerClassName="max-w-5xl">
+        <div className="space-y-5 border-t border-border-light pt-8 sm:pt-10">
+          <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">FAQ</h2>
+          <div className="space-y-3">
+            {faqs.map((faq) => (
+              <div key={faq.question} className="rounded-2xl border border-border-light bg-surface p-5 sm:p-6">
+                <h3 className="text-xl text-text-light-primary">{faq.question}</h3>
+                <p className="mt-2 text-base leading-relaxed text-text-light-muted">{faq.answer}</p>
+              </div>
+            ))}
           </div>
         </div>
       </Section>
