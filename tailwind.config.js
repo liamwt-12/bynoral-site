@@ -8,12 +8,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#F6F3EE',
-        surface: '#FFFFFF',
-        'text-primary': '#1E1E1E',
-        'text-muted': '#585858',
+        background: '#0b0f14',
+        surface: '#11161d',
+        'text-primary': '#f5f5f3',
+        'text-muted': '#cfc8bb',
         border: 'rgba(30,30,30,0.12)',
-        accent: '#2F6F5E'
+        accent: '#c18745'
       },
       fontFamily: {
         heading: ['var(--font-fraunces)', 'serif'],
