@@ -8,12 +8,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#0b0f14',
-        surface: '#11161d',
-        'text-primary': '#f5f5f3',
-        'text-muted': '#cfc8bb',
-        border: 'rgba(30,30,30,0.12)',
-        accent: '#c18745'
+        background: 'var(--color-dark)',
+        surface: 'var(--color-daylight)',
+        'text-primary': 'var(--text-on-dark)',
+        'text-muted': 'var(--text-on-dark-secondary)',
+        border: 'var(--border-on-dark)',
+        accent: 'var(--color-accent)',
+        'text-light-primary': 'var(--text-on-light)',
+        'text-light-muted': 'var(--text-on-light-secondary)',
+        'border-light': 'var(--border-on-light)',
+        'border-dark': 'var(--border-on-dark)'
       },
       fontFamily: {
         heading: ['var(--font-fraunces)', 'serif'],
