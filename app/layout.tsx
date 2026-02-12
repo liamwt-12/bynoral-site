@@ -17,8 +17,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Bynoral',
-  description: 'Bynoral design system foundations'
+  title: 'bynoral',
+  description: 'bynoral café operating system'
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fraunces.variable} ${inter.variable} bg-[#0F1115] font-body text-[#E8ECF3] antialiased`}>
+      <body className={`${fraunces.variable} ${inter.variable} bg-[#0b0f14] font-body text-[#E8ECF3] antialiased`}>
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="page-enter flex-1">{children}</main>

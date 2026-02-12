@@ -30,7 +30,7 @@
 }
 
 .hero-gradient-wash {
-  background: linear-gradient(130deg, rgba(47, 111, 94, 0.08), rgba(144, 166, 159, 0.03), rgba(96, 108, 105, 0.08));
+  background: linear-gradient(130deg, rgba(193, 135, 69, 0.08), rgba(177, 134, 82, 0.03), rgba(120, 92, 62, 0.08));
   background-size: 180% 180%;
   animation: gradient-wash 22s ease-in-out infinite alternate;
 }
@@ -47,7 +47,7 @@
   top: -4%;
   height: 24rem;
   width: 24rem;
-  background: radial-gradient(circle at 35% 35%, rgba(47, 111, 94, 0.28), rgba(47, 111, 94, 0) 72%);
+  background: radial-gradient(circle at 35% 35%, rgba(193, 135, 69, 0.28), rgba(193, 135, 69, 0) 72%);
   animation: drift-a 18s ease-in-out infinite;
 }
 
@@ -56,7 +56,7 @@
   top: 16%;
   height: 22rem;
   width: 22rem;
-  background: radial-gradient(circle at 45% 45%, rgba(96, 108, 105, 0.22), rgba(96, 108, 105, 0) 74%);
+  background: radial-gradient(circle at 45% 45%, rgba(120, 92, 62, 0.22), rgba(120, 92, 62, 0) 74%);
   animation: drift-b 22s ease-in-out infinite;
 }
 
@@ -65,7 +65,7 @@
   bottom: -22%;
   height: 26rem;
   width: 26rem;
-  background: radial-gradient(circle at 50% 50%, rgba(144, 166, 159, 0.24), rgba(144, 166, 159, 0) 76%);
+  background: radial-gradient(circle at 50% 50%, rgba(177, 134, 82, 0.24), rgba(177, 134, 82, 0) 76%);
   animation: drift-c 20s ease-in-out infinite;
 }
 
@@ -77,9 +77,9 @@
 }
 
 .hero-aurora {
-  background: radial-gradient(circle at 18% 30%, rgba(117, 168, 154, 0.26), transparent 48%),
-    radial-gradient(circle at 82% 18%, rgba(47, 111, 94, 0.2), transparent 42%),
-    radial-gradient(circle at 52% 82%, rgba(26, 52, 44, 0.22), transparent 56%);
+  background: radial-gradient(circle at 18% 30%, rgba(193, 135, 69, 0.26), transparent 48%),
+    radial-gradient(circle at 82% 18%, rgba(193, 135, 69, 0.2), transparent 42%),
+    radial-gradient(circle at 52% 82%, rgba(90, 68, 45, 0.22), transparent 56%);
   background-size: 140% 140%;
   animation: aurora-drift 26s ease-in-out infinite alternate;
 }
@@ -150,7 +150,7 @@
   position: absolute;
   inset: -7px;
   border-radius: inherit;
-  border: 1px solid rgba(47, 111, 94, 0.35);
+  border: 1px solid rgba(193, 135, 69, 0.35);
   animation: pulse-ring 1.8s ease-out infinite;
 }
 
@@ -159,7 +159,7 @@
   width: 3px;
   height: 14px;
   border-radius: 999px;
-  background-color: rgba(47, 111, 94, 0.65);
+  background-color: rgba(193, 135, 69, 0.65);
   transform-origin: center bottom;
 }
 
@@ -189,7 +189,7 @@
 }
 
 .range-slider {
-  accent-color: #2f6f5e;
+  accent-color: #c18745;
 }
 
 .range-slider::-webkit-slider-thumb {
@@ -197,8 +197,8 @@
   width: 1rem;
   height: 1rem;
   border-radius: 999px;
-  border: 1px solid rgba(47, 111, 94, 0.3);
-  background: #2f6f5e;
+  border: 1px solid rgba(193, 135, 69, 0.3);
+  background: #c18745;
   box-shadow: 0 1px 6px rgba(30, 30, 30, 0.25);
 }
 
@@ -206,8 +206,8 @@
   width: 1rem;
   height: 1rem;
   border-radius: 999px;
-  border: 1px solid rgba(47, 111, 94, 0.3);
-  background: #2f6f5e;
+  border: 1px solid rgba(193, 135, 69, 0.3);
+  background: #c18745;
   box-shadow: 0 1px 6px rgba(30, 30, 30, 0.25);
 }
 
@@ -215,6 +215,11 @@
 .mobile-player-alive {
   animation: player-breathe 3.4s ease-in-out infinite;
 }
+
+.playing-breath {
+  animation: player-breathe 2.8s ease-in-out infinite;
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   .hero-gradient-wash,
@@ -332,11 +337,11 @@
 @keyframes player-breathe {
   0%,
   100% {
-    box-shadow: 0 16px 34px rgba(19, 30, 27, 0.16);
+    box-shadow: 0 16px 34px rgba(22, 16, 10, 0.24);
   }
 
   50% {
-    box-shadow: 0 20px 38px rgba(47, 111, 94, 0.22);
+    box-shadow: 0 20px 38px rgba(193, 135, 69, 0.22);
   }
 }
 
@@ -375,13 +380,13 @@
 @keyframes live-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(110, 231, 183, 0.08);
-    background-color: rgba(16, 185, 129, 0.08);
+    box-shadow: 0 0 0 0 rgba(193, 135, 69, 0.1);
+    background-color: rgba(193, 135, 69, 0.08);
   }
 
   50% {
-    box-shadow: 0 0 0 8px rgba(110, 231, 183, 0);
-    background-color: rgba(16, 185, 129, 0.18);
+    box-shadow: 0 0 0 8px rgba(193, 135, 69, 0);
+    background-color: rgba(193, 135, 69, 0.18);
   }
 }
 
