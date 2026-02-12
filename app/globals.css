@@ -7,10 +7,10 @@
   --color-daylight: #f4f1ec;
   --color-accent: #c6934a;
   --text-on-dark: rgba(255, 255, 255, 0.92);
-  --text-on-dark-secondary: rgba(255, 255, 255, 0.7);
-  --text-on-light: #121417;
-  --text-on-light-secondary: rgba(18, 20, 23, 0.7);
-  --border-on-light: rgba(0, 0, 0, 0.08);
+  --text-on-dark-secondary: rgba(255, 255, 255, 0.72);
+  --text-on-light: #12161c;
+  --text-on-light-secondary: rgba(18, 22, 28, 0.7);
+  --border-on-light: rgba(18, 22, 28, 0.1);
   --border-on-dark: rgba(255, 255, 255, 0.1);
 }
 

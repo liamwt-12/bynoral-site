@@ -11,3 +11,6 @@ export * from './Motion';
 export * from './AnimatedBackground';
 export * from './Marquee';
 export * from './TryVibeCard';
+
+export * from './StatsStrip';
+export * from './TrustStack';
