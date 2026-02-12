@@ -5,81 +5,45 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Section } from '../components';
 
-type SessionMode = 'Morning Service' | 'Midday Flow' | 'After Hours';
-
-const sessionModes: SessionMode[] = ['Morning Service', 'Midday Flow', 'After Hours'];
+type SessionMode = 'Morning' | 'Midday' | 'After Hours';
 
 const sessionModeTracks: Record<SessionMode, string> = {
-  'Morning Service': '/audio/morning-service.mp3',
-  'Midday Flow': '/audio/midday-flow.mp3',
+  Morning: '/audio/morning-service.mp3',
+  Midday: '/audio/midday-flow.mp3',
   'After Hours': '/audio/after-hours.mp3'
 };
 
-const faqItems = [
-  {
-    question: 'Is this just Spotify?',
-    answer: 'No. Bynoral is built for café service, with timed day-part playback and consistent atmosphere control.'
-  },
-  {
-    question: 'What do I need to run it?',
-    answer: 'A phone, tablet, or laptop connected to your café speaker setup. That is enough to run the full day.'
-  },
-  {
-    question: 'Can staff change it?',
-    answer: 'Yes. Staff can manually switch mode when needed, then return to the default schedule.'
-  },
-  {
-    question: 'Does it run all day?',
-    answer: 'Yes. Once started, it follows the café rhythm from morning through close.'
-  }
-];
-
 function getServiceWindow(hour: number): SessionMode {
-  if (hour >= 6 && hour < 11) return 'Morning Service';
-  if (hour >= 11 && hour < 16) return 'Midday Flow';
+  if (hour >= 6 && hour < 11) return 'Morning';
+  if (hour >= 11 && hour < 17) return 'Midday';
   return 'After Hours';
 }
 
-function getLocalClock(date: Date) {
-  return date.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-  });
-}
-
 export default function Home() {
-  const [currentTime, setCurrentTime] = useState(() => new Date());
   const [sessionMode, setSessionMode] = useState<SessionMode>(() => getServiceWindow(new Date().getHours()));
-  const [manualOverride, setManualOverride] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playError, setPlayError] = useState('');
-  const [playStartedAt, setPlayStartedAt] = useState<number | null>(null);
-  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [roomBalanceEnabled, setRoomBalanceEnabled] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      const now = new Date();
-      setCurrentTime(now);
-
-      if (!manualOverride) {
-        setSessionMode(getServiceWindow(now.getHours()));
-      }
+      setSessionMode(getServiceWindow(new Date().getHours()));
     }, 60000);
 
     return () => window.clearInterval(timer);
-  }, [manualOverride]);
+  }, []);
 
   useEffect(() => {
-    if (!isPlaying || !playStartedAt) return;
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncPreference = () => setPrefersReducedMotion(mediaQuery.matches);
 
-    const timer = window.setInterval(() => {
-      setElapsedSeconds(Math.max(0, Math.floor((Date.now() - playStartedAt) / 1000)));
-    }, 1000);
+    syncPreference();
+    mediaQuery.addEventListener('change', syncPreference);
 
-    return () => window.clearInterval(timer);
-  }, [isPlaying, playStartedAt]);
+    return () => mediaQuery.removeEventListener('change', syncPreference);
+  }, []);
 
   const selectedTrackPath = useMemo(() => sessionModeTracks[sessionMode], [sessionMode]);
 
@@ -103,13 +67,12 @@ export default function Home() {
       .then(() => {
         setIsPlaying(true);
         setPlayError('');
-        if (!playStartedAt) setPlayStartedAt(Date.now());
       })
       .catch(() => {
         setIsPlaying(false);
-        setPlayError('Tap again to start audio');
+        setPlayError('Tap start to begin playback');
       });
-  }, [selectedTrackPath, playStartedAt]);
+  }, [selectedTrackPath]);
 
   const togglePlayback = async () => {
     const audio = audioRef.current;
@@ -120,10 +83,9 @@ export default function Home() {
         await audio.play();
         setIsPlaying(true);
         setPlayError('');
-        setPlayStartedAt(Date.now());
       } catch {
         setIsPlaying(false);
-        setPlayError('Tap again to start audio');
+        setPlayError('Tap start to begin playback');
       }
       return;
     }
@@ -132,28 +94,21 @@ export default function Home() {
     setIsPlaying(false);
   };
 
-  const handleModeOverride = (mode: SessionMode) => {
-    setManualOverride(true);
-    setSessionMode(mode);
-  };
-
-  const statusLine = `${getLocalClock(currentTime)} — ${sessionMode}`;
-
   return (
     <>
-      <Section className="relative min-h-[100svh] overflow-hidden bg-[#0b0f14] pb-20 pt-16 sm:pt-20" containerClassName="max-w-6xl">
+      <Section className="relative min-h-[100svh] overflow-hidden bg-[#121417] pb-20 pt-14 text-[#f3f1ec] sm:pt-20" containerClassName="max-w-6xl">
         <video
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35"
-          autoPlay
-          loop
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-55"
+          autoPlay={!prefersReducedMotion}
+          loop={!prefersReducedMotion}
           muted
           playsInline
           preload="metadata"
         >
           <source src="/video/cafe-loop.mp4" type="video/mp4" />
         </video>
-        <div className="pointer-events-none absolute inset-0 bg-black/55" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,transparent_22%,rgba(0,0,0,0.66)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-black/33" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,transparent_30%,rgba(8,10,12,0.45)_100%)]" />
 
         <audio
           ref={audioRef}
@@ -165,158 +120,123 @@ export default function Home() {
           onEnded={() => setIsPlaying(false)}
         />
 
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-7rem)] w-full max-w-5xl flex-col justify-center gap-8">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-5xl flex-col justify-center gap-10">
           <div className="space-y-6">
-            <h1 className="max-w-4xl text-5xl leading-[0.93] tracking-[-0.02em] text-[#f5f5f3] sm:text-6xl lg:text-7xl">
+            <h1 className="max-w-4xl text-5xl leading-[0.95] tracking-[-0.02em] text-[#f5f4ef] sm:text-6xl lg:text-7xl">
               Music for cafés.
               <br />
               Done properly.
             </h1>
 
-            <p className="max-w-2xl text-lg text-[#ddd9cf] sm:text-xl">Set it once. Let it run all day.</p>
-            <p className="text-sm text-[#c7c1b5]">It follows the rhythm of a café day — automatically.</p>
+            <p className="max-w-2xl text-lg text-[#e4e1d9] sm:text-xl">Set it once. Let it run all day.</p>
+            <p className="text-sm text-[#d4d0c6]">Built for independent cafés. Commercially safe. No ads. No vocals.</p>
 
-            <div className="space-y-1 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-[#c5beaf]">
-              <p>{statusLine}</p>
-              <p>{isPlaying ? 'Active' : 'System ready.'}</p>
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => void togglePlayback()}
+                className="inline-flex items-center justify-center rounded-full border border-[#c18745] bg-[#c18745] px-7 py-3 text-sm font-semibold tracking-[0.14em] text-[#1d140a] transition hover:bg-[#cb9150]"
+              >
+                Start session
+              </button>
+              <Link
+                href="/founding-50"
+                className="inline-flex items-center justify-center rounded-full border border-white/35 px-7 py-3 text-sm font-semibold tracking-[0.14em] text-[#f3f1ec] transition hover:border-white/60"
+              >
+                Apply for founding 50
+              </Link>
             </div>
           </div>
 
-          <div className="pt-2">
-            <button
-              type="button"
-              onClick={() => void togglePlayback()}
-              className={[
-                'hero-machine-button relative inline-flex min-w-[170px] items-center justify-center rounded-full border border-[#c18745] px-9 py-4 text-sm font-semibold tracking-[0.22em] text-[#f5f1e8] transition',
-                'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#c18745]/30 active:scale-[0.98]',
-                isPlaying
-                  ? 'bg-[#b67f42] text-[#1b1309] shadow-[0_0_0_1px_rgba(193,135,69,0.24),0_0_30px_rgba(193,135,69,0.32)] playing-breath'
-                  : 'bg-[#2a2116] hover:bg-[#362818]'
-              ]
-                .join(' ')
-                .trim()}
-              aria-label={isPlaying ? 'Stop playback' : 'Start playback'}
-            >
-              {isPlaying ? 'LIVE' : 'START'}
-            </button>
-            {playError ? <p className="mt-3 text-xs text-[#dbb78d]">{playError}</p> : null}
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-black/35 p-5 backdrop-blur-sm sm:max-w-md">
-            <div className="space-y-4">
+          <div id="homepage-player" className="max-w-lg rounded-2xl border border-white/15 bg-[#14181d]/80 p-6 backdrop-blur-sm sm:p-7">
+            <div className="space-y-5">
               <div>
-                <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#b8b1a4]">homepage preview player</p>
-                <p className="mt-1 text-lg text-[#f5f5f3]">{sessionMode}</p>
-                <p className="text-xs uppercase tracking-[0.16em] text-[#c5beaf]">{isPlaying ? 'Active' : 'System ready'}</p>
+                <p className="text-[0.68rem] uppercase tracking-[0.17em] text-[#c8c3b7]">Current mode</p>
+                <p className="mt-1 text-2xl text-[#f5f4ef]">{sessionMode}</p>
               </div>
 
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center justify-between gap-4 border-y border-white/10 py-4">
                 <button
                   type="button"
                   onClick={() => void togglePlayback()}
-                  className="rounded-full border border-[#c18745] bg-[#241b12] px-6 py-2 text-xs font-semibold tracking-[0.2em] text-[#f5e6cf] transition hover:bg-[#322416]"
+                  className="rounded-full border border-[#c18745]/75 bg-transparent px-5 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#f0d7b5] transition hover:border-[#c18745]"
                 >
-                  {isPlaying ? 'LIVE' : 'START'}
+                  {isPlaying ? 'Stop' : 'Start'}
                 </button>
-                <p className="text-[0.68rem] uppercase tracking-[0.14em] text-[#aaa193]">Room Balance — Active</p>
-              </div>
 
-              <div className="space-y-2 text-xs text-[#d9d3c9]">
-                <p className="uppercase tracking-[0.14em] text-[#b8b1a4]">mode override</p>
-                <div className="flex flex-wrap items-center gap-2">
-                  {sessionModes.map((mode) => (
-                    <button
-                      key={mode}
-                      type="button"
-                      onClick={() => handleModeOverride(mode)}
-                      className={`rounded-full border px-3 py-1 transition ${
-                        sessionMode === mode
-                          ? 'border-[#c18745] text-[#e9c69b]'
-                          : 'border-white/20 text-[#d3cdc2] hover:border-white/40'
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={roomBalanceEnabled}
+                  onClick={() => setRoomBalanceEnabled((current) => !current)}
+                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.15em] text-[#d5d1c8]"
+                >
+                  Room balance
+                  <span
+                    className={`relative inline-flex h-5 w-10 rounded-full transition ${
+                      roomBalanceEnabled ? 'bg-[#c18745]/80' : 'bg-white/25'
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 h-4 w-4 rounded-full bg-[#121417] transition ${
+                        roomBalanceEnabled ? 'left-[1.3rem]' : 'left-0.5'
                       }`}
-                    >
-                      {mode}
-                    </button>
-                  ))}
-                  {manualOverride ? (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setManualOverride(false);
-                        setSessionMode(getServiceWindow(new Date().getHours()));
-                      }}
-                      className="text-[0.65rem] uppercase tracking-[0.16em] text-[#bcab8f] underline underline-offset-4"
-                    >
-                      return to automatic
-                    </button>
-                  ) : null}
-                </div>
+                    />
+                  </span>
+                </button>
               </div>
 
-              {isPlaying ? (
-                <p className="text-[0.68rem] uppercase tracking-[0.16em] text-[#bfb8ac]">
-                  Running {String(Math.floor(elapsedSeconds / 60)).padStart(2, '0')}:
-                  {String(elapsedSeconds % 60).padStart(2, '0')}
-                </p>
-              ) : null}
+              <p className="text-xs uppercase tracking-[0.15em] text-[#beb8aa]">{isPlaying ? 'Running' : 'System ready'}</p>
+              {playError ? <p className="text-xs text-[#efc792]">{playError}</p> : null}
             </div>
           </div>
         </div>
       </Section>
 
-      <Section className="bg-[#11161d] py-20 text-[#f5f5f3] sm:py-24" containerClassName="max-w-5xl">
+      <Section className="bg-[#f5f2ec] py-20 text-[#1b1f24] sm:py-24" containerClassName="max-w-4xl">
         <div className="space-y-6">
-          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">When music depends on staff, your atmosphere does too.</h2>
-          <ul className="space-y-3 text-lg text-[#d1cabd]">
-            <li>Playlists repeat before lunch.</li>
-            <li>Mood shifts with whoever is on shift.</li>
-            <li>Openers forget to start playback.</li>
-            <li>Awkward gaps break the room.</li>
+          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">Why Bynoral exists</h2>
+          <div className="space-y-3 text-lg leading-relaxed text-[#2f3338]">
+            <p>Most cafés rely on whatever phone is connected. Staff change. Music changes. Mood changes.</p>
+            <p>Bynoral runs quietly in the background. Following the rhythm of a café day.</p>
+            <p>No drama. No decision fatigue. Just the right atmosphere.</p>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="bg-[#171b20] py-20 text-[#f4f2ed] sm:py-24" containerClassName="max-w-4xl">
+        <div className="space-y-6">
+          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">Better than a playlist.</h2>
+          <ul className="space-y-2 text-lg text-[#ded9ce]">
+            <li>• No ads</li>
+            <li>• No vocals</li>
+            <li>• No awkward gaps</li>
+            <li>• Commercial use ready</li>
+            <li>• Runs automatically</li>
           </ul>
         </div>
       </Section>
 
-      <Section className="bg-[#0b0f14] py-20 text-[#f5f5f3] sm:py-24" containerClassName="max-w-5xl">
-        <div className="space-y-5">
-          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">Bynoral handles it.</h2>
-          <p className="text-2xl text-[#dad3c6] sm:text-3xl">Switch on.</p>
-          <p className="text-2xl text-[#dad3c6] sm:text-3xl">Let it run all day.</p>
-          <p className="text-2xl text-[#dad3c6] sm:text-3xl">Close at night.</p>
-        </div>
-      </Section>
-
-      <Section className="bg-[#121821] py-20 text-[#f5f5f3] sm:py-24" containerClassName="max-w-5xl">
-        <div className="rounded-2xl border border-[#c18745]/35 bg-[#1a120b] p-8 sm:p-10">
-          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">founding 50</h2>
-          <p className="mt-4 text-lg text-[#e6d2b3]">3 months free. No card. Honest feedback expected.</p>
+      <Section className="bg-[#f8f6f1] py-20 text-[#1b1f24] sm:py-24" containerClassName="max-w-4xl">
+        <div className="space-y-6 rounded-2xl border border-[#c9c2b2] bg-[#f8f6f1] p-8 sm:p-10">
+          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">Founding 50 cafés.</h2>
+          <p className="text-lg text-[#2b3036]">We’re onboarding 50 independent cafés. 3 months free. No card required. Honest feedback expected.</p>
           <Link
             href="/founding-50"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#c18745] px-6 py-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#f5e6cf] transition hover:bg-[#2d2115]"
+            className="inline-flex items-center gap-2 rounded-full border border-[#c18745] bg-[#c18745] px-6 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#1f160b] transition hover:bg-[#cb9150]"
           >
-            apply now <span aria-hidden="true">→</span>
+            Apply now <span aria-hidden="true">→</span>
           </Link>
         </div>
       </Section>
 
-      <Section className="bg-[#0b0f14] py-16 text-[#f5f5f3] sm:py-20" containerClassName="max-w-5xl">
-        <div className="space-y-2">
-          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">£29 / month per café. Cancel anytime.</h2>
+      <footer className="bg-[#121417] py-8 text-[#b8b3a7]">
+        <div className="mx-auto w-full max-w-4xl px-6">
+          <p className="text-sm leading-relaxed">
+            Built by a founder obsessed with independent venues and the feeling of a room done properly.
+          </p>
         </div>
-      </Section>
-
-      <Section className="bg-[#11161d] pb-24 pt-20 text-[#f5f5f3] sm:pt-24" containerClassName="max-w-5xl">
-        <div className="space-y-6">
-          <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">FAQ</h2>
-          <div className="space-y-3">
-            {faqItems.map((item) => (
-              <details key={item.question} className="border-b border-white/10 pb-3">
-                <summary className="cursor-pointer list-none py-2 text-lg text-[#ece7de] [&::-webkit-details-marker]:hidden">{item.question}</summary>
-                <p className="pt-1 text-sm leading-relaxed text-[#cfc8bb]">{item.answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </Section>
+      </footer>
     </>
   );
 }
