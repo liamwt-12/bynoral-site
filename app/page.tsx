@@ -222,7 +222,7 @@ export default function Home() {
     <>
       <Section className="relative overflow-hidden bg-background pb-16 pt-24 text-text-primary sm:pb-20 sm:pt-32" containerClassName="max-w-5xl">
         <video
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-55"
           autoPlay={!prefersReducedMotion}
           loop={!prefersReducedMotion}
           muted
@@ -231,7 +231,7 @@ export default function Home() {
         >
           <source src="/video/cafe-loop.mp4" type="video/mp4" />
         </video>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(15,20,25,0.52),rgba(15,20,25,0.8))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(250,247,241,0.36),rgba(246,241,233,0.58))]" />
 
         <audio
           ref={audioRef}
@@ -244,11 +244,11 @@ export default function Home() {
         />
 
         <div className="relative z-10 mx-auto max-w-3xl space-y-8 sm:space-y-10">
-          <h1 className="text-4xl leading-[1.03] tracking-[-0.02em] text-white sm:text-6xl">Music for cafés. Done properly.</h1>
-          <p className="max-w-xl text-base text-white/72 sm:text-lg">Set it once. Let it run all day with calm, service-aware control.</p>
+          <h1 className="text-4xl leading-[1.03] tracking-[-0.02em] text-text-primary sm:text-6xl">Music for cafés. Done properly.</h1>
+          <p className="max-w-xl text-base text-text-primary/80 sm:text-lg">Set it once. Let it run all day with calm, service-aware control.</p>
 
           <div className="space-y-3">
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-col items-start gap-3">
               <button
                 type="button"
                 onClick={() => void togglePlayback()}
@@ -258,31 +258,13 @@ export default function Home() {
               </button>
               <Link
                 href="/founding-50"
-                className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3 text-sm font-medium tracking-[0.08em] text-white/85 transition hover:border-white/60 hover:text-white"
+                className="text-sm font-medium text-text-primary/80 underline decoration-text-primary/35 underline-offset-4 transition hover:text-text-primary"
               >
                 Apply for founding 50
               </Link>
             </div>
-            <p className="pl-1 text-xs text-white/66">3 months free. No card required.</p>
+            <p className="pl-1 text-xs text-text-primary/75">3 months free for founding cafés. No card required.</p>
           </div>
-        </div>
-      </Section>
-
-      <Section className="bg-surface py-6 text-text-light-muted" containerClassName="max-w-5xl">
-        <p className="text-xs tracking-[0.1em] sm:text-sm">Built in the UK · Designed for independent cafés · Founder-led</p>
-      </Section>
-
-      <Section className="bg-surface py-14 text-text-light-primary sm:py-20" containerClassName="max-w-5xl">
-        <div className="max-w-3xl space-y-6">
-          <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">How it works</h2>
-          <ol className="space-y-4 text-base leading-relaxed text-text-light-muted sm:text-lg">
-            {howItWorks.map((item, index) => (
-              <li key={item} className="flex gap-3">
-                <span className="mt-1 text-sm text-text-light-muted">{index + 1}.</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ol>
         </div>
       </Section>
 
@@ -380,7 +362,25 @@ export default function Home() {
 
       <Section className="bg-surface py-14 text-text-light-primary sm:py-20" containerClassName="max-w-5xl">
         <div className="max-w-3xl space-y-6">
+          <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">How it works</h2>
+          <ol className="space-y-4 text-base leading-relaxed text-text-light-muted sm:text-lg">
+            {howItWorks.map((item, index) => (
+              <li key={item} className="flex gap-3">
+                <span className="mt-1 text-sm text-text-light-muted">{index + 1}.</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Section>
+
+      <Section className="bg-surface py-14 text-text-light-primary sm:py-20" containerClassName="max-w-5xl">
+        <div className="max-w-3xl space-y-6">
+          <p className="text-xs tracking-[0.1em] text-text-light-primary sm:text-sm">Built in the UK · Designed for independent cafés · Founder-led</p>
           <h2 className="text-3xl leading-tight tracking-[-0.01em] sm:text-4xl">Built for calm commercial service</h2>
+          <p className="text-base text-text-light-muted sm:text-lg">
+            Bynoral is designed for public-space ambience without mainstream catalogue dependence.
+          </p>
           <ul className="space-y-3 text-base text-text-light-muted sm:text-lg">
             {benefits.map((benefit) => (
               <li key={benefit} className="flex gap-3">
@@ -391,12 +391,6 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          <div className="rounded-2xl border border-border-light bg-[#F8F5F0] p-5 sm:p-6">
-            <p className="text-sm uppercase tracking-[0.12em] text-text-light-muted">Commercial clarity</p>
-            <p className="mt-2 text-base text-text-light-muted sm:text-lg">
-              Bynoral is designed for public-space ambience without mainstream catalogue dependence.
-            </p>
-          </div>
         </div>
       </Section>
 
