@@ -14,9 +14,9 @@ const sessionModeTracks: Record<SessionMode, string> = {
 };
 
 const modeTint: Record<SessionMode, string> = {
-  Morning: 'bg-[radial-gradient(circle_at_15%_15%,rgba(198,147,74,0.12),transparent_62%)]',
-  Midday: 'bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.08),transparent_60%)]',
-  'After Hours': 'bg-[radial-gradient(circle_at_85%_20%,rgba(198,147,74,0.1),transparent_58%)]'
+  Morning: 'bg-[rgba(255,255,255,0.08)]',
+  Midday: 'bg-[rgba(15,20,25,0.2)]',
+  'After Hours': 'bg-[rgba(15,20,25,0.34)]'
 };
 
 const faqs = [
@@ -118,11 +118,11 @@ export default function Home() {
   return (
     <>
       <Section
-        className="relative min-h-[100svh] overflow-hidden bg-background pb-16 pt-14 text-text-primary sm:pt-20"
+        className="relative min-h-[100svh] overflow-hidden bg-background pb-16 pt-10 text-text-primary sm:pt-16"
         containerClassName="max-w-6xl"
       >
         <video
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-65"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-58"
           autoPlay={!prefersReducedMotion}
           loop={!prefersReducedMotion}
           muted
@@ -144,9 +144,9 @@ export default function Home() {
           onEnded={() => setIsPlaying(false)}
         />
 
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-5xl flex-col justify-center gap-10 sm:gap-12">
-          <div className="space-y-5">
-            <h1 className="max-w-4xl text-4xl leading-[0.95] tracking-[-0.02em] text-white sm:text-6xl lg:text-7xl">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-5xl flex-col justify-center gap-12 sm:gap-14">
+          <div className="space-y-6">
+            <h1 className="max-w-4xl text-4xl leading-[1.03] tracking-[-0.02em] text-white sm:text-6xl lg:text-7xl">
               Music for cafés.
               <br />
               Done properly.
@@ -154,7 +154,7 @@ export default function Home() {
 
             <p className="max-w-2xl text-base text-white/85 sm:text-xl">Set it once. Let it run all day.</p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-1">
               <button
                 type="button"
                 onClick={() => void togglePlayback()}
@@ -173,14 +173,19 @@ export default function Home() {
               </div>
             </div>
 
+            <p className="text-xs tracking-[0.08em] text-white/72 sm:text-sm">
+              Built in the UK <span className="px-2 text-white/40">•</span> Designed for independent cafés{' '}
+              <span className="px-2 text-white/40">•</span> Founder-led
+            </p>
+
             <TrustStack />
           </div>
 
           <div
             id="homepage-player"
-            className="mobile-player-alive relative max-w-lg overflow-hidden rounded-3xl border border-border-dark bg-[rgba(15,20,25,0.72)] p-5 shadow-[0_22px_40px_-28px_rgba(0,0,0,0.7)] backdrop-blur-md transition duration-300 md:hover:-translate-y-0.5 md:hover:border-white/20 sm:p-7"
+            className="mobile-player-alive relative max-w-lg overflow-hidden rounded-3xl border border-border-dark bg-[rgba(15,20,25,0.72)] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),inset_0_-10px_26px_rgba(0,0,0,0.2),0_22px_40px_-28px_rgba(0,0,0,0.7)] backdrop-blur-md transition duration-300 md:hover:-translate-y-0.5 md:hover:border-white/20 sm:p-7"
           >
-            <div className={`pointer-events-none absolute inset-0 opacity-90 transition-all duration-500 ${modeTint[sessionMode]}`} />
+            <div className={`pointer-events-none absolute inset-0 transition-all duration-700 ${modeTint[sessionMode]}`} />
             <div className="relative space-y-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
@@ -196,10 +201,10 @@ export default function Home() {
                     key={mode}
                     type="button"
                     onClick={() => setSessionMode(mode)}
-                    className={`rounded-lg border px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] transition duration-200 active:scale-[0.98] ${
+                    className={`rounded-lg border px-4 py-2 text-xs font-medium uppercase tracking-[0.12em] transition-all duration-400 active:scale-[0.98] ${
                       mode === sessionMode
-                        ? 'border-white/30 bg-white/10 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]'
-                        : 'border-border-dark text-text-muted hover:border-white/25 hover:text-white'
+                        ? 'border-white/30 bg-white/10 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),0_0_0_1px_rgba(198,147,74,0.08)]'
+                        : 'border-border-dark text-text-muted hover:border-white/25 hover:bg-white/[0.03] hover:text-white'
                     }`}
                   >
                     {mode}
@@ -228,7 +233,7 @@ export default function Home() {
               <div className="flex items-center justify-between gap-5">
                 <div>
                   <p className="text-xs uppercase tracking-[0.15em] text-white">Room Balance</p>
-                  <p className="mt-1 text-xs text-text-muted">Balancing background chatter</p>
+                  <p className="mt-1 text-xs text-text-muted">Balancing background chatter in real time.</p>
                 </div>
 
                 <button
@@ -236,7 +241,7 @@ export default function Home() {
                   role="switch"
                   aria-checked={roomBalanceEnabled}
                   onClick={() => setRoomBalanceEnabled((current) => !current)}
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.15em] text-text-muted"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-2 py-1 text-xs uppercase tracking-[0.15em] text-text-muted transition hover:border-white/30"
                 >
                   <span
                     className={`relative inline-flex h-6 w-11 rounded-full border transition ${
@@ -260,7 +265,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-5xl">
+      <Section className="bg-surface py-20 text-text-light-primary sm:py-28" containerClassName="max-w-5xl">
         <div className="space-y-6">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-text-light-muted">Why Bynoral exists</p>
           <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">
@@ -269,7 +274,7 @@ export default function Home() {
           <div className="max-w-3xl space-y-3 text-lg leading-relaxed text-text-light-muted">
             <p>Phones disconnect. Shifts change. The atmosphere drifts.</p>
             <p>Bynoral keeps the room steady, from first coffees to late-afternoon wind-down.</p>
-            <p>Quietly reliable. Always on-brand.</p>
+            <p>Built to run consistently through service.</p>
           </div>
         </div>
       </Section>
@@ -288,25 +293,55 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="bg-background py-16 text-text-primary sm:py-24" containerClassName="max-w-5xl">
+      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-5xl">
+        <div className="space-y-8 rounded-3xl border border-border-light bg-[#F4F1EC] p-8 sm:p-10">
+          <div className="space-y-3">
+            <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">
+              Trusted by independent cafés across the UK.
+            </h2>
+            <p className="text-base text-text-light-muted sm:text-lg">
+              Built specifically for commercial hospitality environments.
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-border-light bg-white/55 p-4">
+              <p className="text-2xl text-text-light-primary">50</p>
+              <p className="text-sm text-text-light-muted">cafés onboarding</p>
+            </div>
+            <div className="rounded-2xl border border-border-light bg-white/55 p-4">
+              <p className="text-2xl text-text-light-primary">100%</p>
+              <p className="text-sm text-text-light-muted">commercially safe</p>
+            </div>
+            <div className="rounded-2xl border border-border-light bg-white/55 p-4">
+              <p className="text-2xl text-text-light-primary">0 ads. 0 vocals.</p>
+              <p className="text-sm text-text-light-muted">steady atmosphere</p>
+            </div>
+            <div className="rounded-2xl border border-border-light bg-white/55 p-4">
+              <p className="text-2xl text-text-light-primary">Designed in the UK</p>
+              <p className="text-sm text-text-light-muted">for independent teams</p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="bg-background py-20 text-text-primary sm:py-28" containerClassName="max-w-5xl">
         <div className="space-y-7">
           <div className="max-w-3xl rounded-2xl border border-border-dark bg-[rgba(15,20,25,0.72)] p-6 text-sm text-text-muted shadow-[0_18px_35px_-30px_rgba(0,0,0,0.7)] backdrop-blur-sm sm:p-8">
             <h3 className="text-2xl text-white">Commercial use. Covered.</h3>
             <ul className="mt-4 space-y-2 text-base">
               <li>No mainstream catalogue</li>
               <li>No ads</li>
-              <li>No vocals</li>
-              <li>Built for public spaces</li>
+              <li>No vocal interruptions</li>
+              <li>Built for licensed public spaces</li>
             </ul>
-            <p className="mt-5 text-sm text-white/72">
-              If you currently use a public music licence, keep doing so — Bynoral is designed to fit into licensed venues.
-            </p>
+            <p className="mt-5 text-sm text-white/72">Designed to run quietly in the background of real businesses.</p>
           </div>
         </div>
       </Section>
 
-      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-5xl">
-        <div className="space-y-5 rounded-3xl border border-border-light bg-[#faf8f4] p-7 shadow-[0_20px_34px_-30px_rgba(18,22,28,0.45)] sm:p-10">
+      <Section className="bg-surface py-20 text-text-light-primary sm:py-32" containerClassName="max-w-5xl">
+        <div className="space-y-5 rounded-3xl border border-border-light bg-[#faf8f4] p-8 shadow-[0_20px_34px_-30px_rgba(18,22,28,0.45)] sm:p-12">
           <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">Founding 50 cafés.</h2>
           <p className="max-w-2xl text-lg text-text-light-muted">
             We’re onboarding 50 independent cafés and shaping Bynoral with them.
@@ -314,7 +349,7 @@ export default function Home() {
           <div className="space-y-1">
             <Link
               href="/founding-50"
-              className="hero-cta inline-flex items-center gap-2 rounded-full border border-accent bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#12161c] transition duration-200 hover:brightness-105 active:scale-[0.99]"
+              className="hero-cta inline-flex items-center gap-2 rounded-full border border-accent bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#12161c] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_18px_-12px_rgba(18,22,28,0.65)] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
             >
               Apply for founding 50 <span aria-hidden="true">→</span>
             </Link>
