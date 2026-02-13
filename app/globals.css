@@ -10,8 +10,8 @@
   --text-on-dark-secondary: rgba(255, 255, 255, 0.72);
   --text-on-light: #12161c;
   --text-on-light-secondary: rgba(18, 22, 28, 0.7);
-  --border-on-light: rgba(18, 22, 28, 0.1);
-  --border-on-dark: rgba(255, 255, 255, 0.1);
+  --border-on-light: rgba(0, 0, 0, 0.08);
+  --border-on-dark: rgba(0, 0, 0, 0.08);
 }
 
 @layer base {
