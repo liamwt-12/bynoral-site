@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Section, StatsStrip, TrustStack } from '../components';
+import { Section } from '../components';
 
 type SessionMode = 'Morning' | 'Midday' | 'After Hours';
 
@@ -145,14 +145,14 @@ export default function Home() {
         />
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-5xl flex-col justify-center gap-12 sm:gap-14">
-          <div className="space-y-6">
+          <div className="space-y-8">
             <h1 className="max-w-4xl text-4xl leading-[1.03] tracking-[-0.02em] text-white sm:text-6xl lg:text-7xl">
               Music for cafés.
               <br />
               Done properly.
             </h1>
 
-            <p className="max-w-2xl text-base text-white/85 sm:text-xl">Set it once. Let it run all day.</p>
+            <p className="max-w-2xl text-base font-normal text-white/80 sm:text-xl">Set it once. Let it run all day.</p>
 
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <button
@@ -162,23 +162,12 @@ export default function Home() {
               >
                 Start session
               </button>
-              <div className="space-y-1">
-                <Link
-                  href="/founding-50"
-                  className="hero-cta inline-flex items-center justify-center rounded-full border border-border-dark bg-white/[0.02] px-7 py-3 text-sm font-semibold tracking-[0.12em] text-white transition duration-200 hover:bg-white/[0.08] hover:border-white/40 active:scale-[0.99]"
-                >
-                  Apply for founding 50
-                </Link>
-                <p className="text-xs text-white/72">3 months free. No card required.</p>
-              </div>
             </div>
 
             <p className="text-xs tracking-[0.08em] text-white/72 sm:text-sm">
               Built in the UK <span className="px-2 text-white/40">•</span> Designed for independent cafés{' '}
               <span className="px-2 text-white/40">•</span> Founder-led
             </p>
-
-            <TrustStack />
           </div>
 
           <div
@@ -265,13 +254,13 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="bg-surface py-20 text-text-light-primary sm:py-28" containerClassName="max-w-5xl">
+      <Section className="bg-surface py-24 text-text-light-primary sm:py-32" containerClassName="max-w-5xl">
         <div className="space-y-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-text-light-muted">Why Bynoral exists</p>
+          <p className="text-xs font-medium uppercase tracking-[0.16em] text-text-light-muted">Why Bynoral exists</p>
           <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">
             Staff shouldn’t have to DJ the room.
           </h2>
-          <div className="max-w-3xl space-y-3 text-lg leading-relaxed text-text-light-muted">
+          <div className="max-w-3xl space-y-4 text-lg font-normal leading-relaxed text-text-light-muted">
             <p>Phones disconnect. Shifts change. The atmosphere drifts.</p>
             <p>Bynoral keeps the room steady, from first coffees to late-afternoon wind-down.</p>
             <p>Built to run consistently through service.</p>
@@ -279,71 +268,38 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-5xl">
-        <div className="space-y-8 border-y border-border-light py-8 sm:py-10">
-          <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">Better than a playlist.</h2>
-          <ul className="space-y-2 text-lg text-text-light-muted">
-            <li>• No ads</li>
-            <li>• No vocals</li>
-            <li>• No awkward gaps</li>
-            <li>• Built for public spaces</li>
-            <li>• Runs automatically</li>
-          </ul>
-          <StatsStrip />
-        </div>
-      </Section>
-
-      <Section className="bg-surface py-16 text-text-light-primary sm:py-24" containerClassName="max-w-5xl">
-        <div className="space-y-8 rounded-3xl border border-border-light bg-[#F4F1EC] p-8 sm:p-10">
-          <div className="space-y-3">
+      <Section className="bg-surface py-20 text-text-light-primary sm:py-28" containerClassName="max-w-5xl">
+        <div className="space-y-8 border-y border-border-light py-10 sm:py-12">
+          <div className="space-y-4">
             <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">
               Trusted by independent cafés across the UK.
             </h2>
-            <p className="text-base text-text-light-muted sm:text-lg">
-              Built specifically for commercial hospitality environments.
-            </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-border-light bg-white/55 p-4">
-              <p className="text-2xl text-text-light-primary">50</p>
-              <p className="text-sm text-text-light-muted">cafés onboarding</p>
-            </div>
-            <div className="rounded-2xl border border-border-light bg-white/55 p-4">
-              <p className="text-2xl text-text-light-primary">100%</p>
-              <p className="text-sm text-text-light-muted">commercially safe</p>
-            </div>
-            <div className="rounded-2xl border border-border-light bg-white/55 p-4">
-              <p className="text-2xl text-text-light-primary">0 ads. 0 vocals.</p>
-              <p className="text-sm text-text-light-muted">steady atmosphere</p>
-            </div>
-            <div className="rounded-2xl border border-border-light bg-white/55 p-4">
-              <p className="text-2xl text-text-light-primary">Designed in the UK</p>
-              <p className="text-sm text-text-light-muted">for independent teams</p>
-            </div>
+          <ul className="divide-y divide-border-light border-y border-border-light text-lg font-normal text-text-light-muted">
+            <li className="py-4">50 cafés onboarding</li>
+            <li className="py-4">100% commercially safe</li>
+            <li className="py-4">No ads. No vocals.</li>
+            <li className="py-4">Designed in the UK</li>
+          </ul>
+        </div>
+      </Section>
+
+      <Section className="bg-surface py-20 text-text-light-primary sm:py-28" containerClassName="max-w-5xl">
+        <div className="max-w-3xl space-y-5 rounded-2xl border border-border-light bg-[#F8F5F0] p-7 sm:p-9">
+          <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">Commercial use. Covered.</h2>
+          <div className="space-y-2 text-base font-normal text-text-light-muted sm:text-lg">
+            <p>No mainstream catalogue.</p>
+            <p>Built for licensed public spaces.</p>
+            <p>Runs quietly in the background.</p>
           </div>
         </div>
       </Section>
 
-      <Section className="bg-background py-20 text-text-primary sm:py-28" containerClassName="max-w-5xl">
-        <div className="space-y-7">
-          <div className="max-w-3xl rounded-2xl border border-border-dark bg-[rgba(15,20,25,0.72)] p-6 text-sm text-text-muted shadow-[0_18px_35px_-30px_rgba(0,0,0,0.7)] backdrop-blur-sm sm:p-8">
-            <h3 className="text-2xl text-white">Commercial use. Covered.</h3>
-            <ul className="mt-4 space-y-2 text-base">
-              <li>No mainstream catalogue</li>
-              <li>No ads</li>
-              <li>No vocal interruptions</li>
-              <li>Built for licensed public spaces</li>
-            </ul>
-            <p className="mt-5 text-sm text-white/72">Designed to run quietly in the background of real businesses.</p>
-          </div>
-        </div>
-      </Section>
-
-      <Section className="bg-surface py-20 text-text-light-primary sm:py-32" containerClassName="max-w-5xl">
-        <div className="space-y-5 rounded-3xl border border-border-light bg-[#faf8f4] p-8 shadow-[0_20px_34px_-30px_rgba(18,22,28,0.45)] sm:p-12">
+      <Section className="bg-surface py-24 text-text-light-primary sm:py-32" containerClassName="max-w-5xl">
+        <div className="space-y-6 rounded-3xl border border-border-light bg-[#faf8f4] p-9 sm:p-12">
           <h2 className="text-3xl leading-tight tracking-[-0.01em] text-text-light-primary sm:text-4xl">Founding 50 cafés.</h2>
-          <p className="max-w-2xl text-lg text-text-light-muted">
+          <p className="max-w-2xl text-lg font-normal text-text-light-muted">
             We’re onboarding 50 independent cafés and shaping Bynoral with them.
           </p>
           <div className="space-y-1">
@@ -351,7 +307,7 @@ export default function Home() {
               href="/founding-50"
               className="hero-cta inline-flex items-center gap-2 rounded-full border border-accent bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#12161c] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_18px_-12px_rgba(18,22,28,0.65)] hover:brightness-105 active:translate-y-0 active:scale-[0.99]"
             >
-              Apply for founding 50 <span aria-hidden="true">→</span>
+              Apply for Founding 50 <span aria-hidden="true">→</span>
             </Link>
             <p className="text-xs text-text-light-muted">3 months free. No card required.</p>
           </div>
@@ -365,7 +321,7 @@ export default function Home() {
             {faqs.map((faq) => (
               <div key={faq.question} className="rounded-2xl border border-border-light bg-surface p-5 sm:p-6">
                 <h3 className="text-xl text-text-light-primary">{faq.question}</h3>
-                <p className="mt-2 text-base leading-relaxed text-text-light-muted">{faq.answer}</p>
+                <p className="mt-2 text-base font-normal leading-relaxed text-text-light-muted">{faq.answer}</p>
               </div>
             ))}
           </div>
