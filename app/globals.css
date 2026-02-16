@@ -232,6 +232,25 @@
   animation: player-breathe 2.8s ease-in-out infinite;
 }
 
+.hero-full-height {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.hero-safe-bottom {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.player-peek-card {
+  transform: translateY(-96px);
+}
+
+@media (min-width: 640px) {
+  .player-peek-card {
+    transform: translateY(-118px);
+  }
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   .hero-gradient-wash,

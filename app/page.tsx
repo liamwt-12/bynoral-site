@@ -220,7 +220,7 @@ export default function Home() {
 
   return (
     <>
-      <Section className="relative overflow-hidden bg-background pb-16 pt-24 text-text-primary sm:pb-20 sm:pt-32" containerClassName="max-w-5xl">
+      <Section className="hero-full-height hero-safe-bottom relative overflow-hidden bg-background py-0 text-text-primary" containerClassName="max-w-5xl">
         <video
           className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-55"
           autoPlay={!prefersReducedMotion}
@@ -231,7 +231,7 @@ export default function Home() {
         >
           <source src="/video/cafe-loop.mp4" type="video/mp4" />
         </video>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(250,247,241,0.36),rgba(246,241,233,0.58))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(15,20,25,0.35),rgba(15,20,25,0.70))]" />
 
         <audio
           ref={audioRef}
@@ -243,11 +243,11 @@ export default function Home() {
           onEnded={() => setIsPlaying(false)}
         />
 
-        <div className="relative z-10 mx-auto max-w-3xl space-y-8 sm:space-y-10">
-          <h1 className="text-4xl leading-[1.03] tracking-[-0.02em] text-text-primary sm:text-6xl">Music for cafés. Done properly.</h1>
-          <p className="max-w-xl text-base text-text-primary/80 sm:text-lg">Set it once. Let it run all day with calm, service-aware control.</p>
+        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-3xl flex-col justify-center pt-24 pb-44 sm:pt-28 sm:pb-56">
+          <h1 className="text-4xl leading-[1.03] tracking-[-0.02em] text-white sm:text-6xl">Music for cafés. Done properly.</h1>
+          <p className="mt-7 max-w-xl text-base text-white/90 sm:text-lg">Set it once. Let it run all day with calm, service-aware control.</p>
 
-          <div className="space-y-3">
+          <div className="mt-8 space-y-3 sm:mt-10">
             <div className="flex flex-col items-start gap-3">
               <button
                 type="button"
@@ -258,20 +258,21 @@ export default function Home() {
               </button>
               <Link
                 href="/founding-50"
-                className="text-sm font-medium text-text-primary/80 underline decoration-text-primary/35 underline-offset-4 transition hover:text-text-primary"
+                className="text-sm font-medium text-white/90 underline decoration-white/35 underline-offset-4 transition hover:text-white"
               >
                 Apply for founding 50
               </Link>
             </div>
-            <p className="pl-1 text-xs text-text-primary/75">3 months free for founding cafés. No card required.</p>
+            <p className="pl-1 text-xs text-white/85">3 months free for founding cafés. No card required.</p>
           </div>
         </div>
       </Section>
 
-      <Section className="bg-surface pb-14 text-text-primary sm:pb-20" containerClassName="max-w-5xl">
+      <Section className="relative bg-surface pb-14 pt-0 text-text-primary sm:pb-20" containerClassName="max-w-5xl">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(to_bottom,rgba(15,20,25,0.4),rgba(15,20,25,0))]" />
         <div
           id="homepage-player"
-          className="relative max-w-2xl overflow-hidden rounded-3xl border border-border-dark bg-[rgba(15,20,25,0.8)] p-5 shadow-[0_18px_36px_-28px_rgba(0,0,0,0.8)] backdrop-blur-md sm:p-7"
+          className="player-peek-card relative z-10 max-w-2xl overflow-hidden rounded-3xl border border-border-dark bg-[rgba(15,20,25,0.8)] p-5 shadow-[0_18px_36px_-28px_rgba(0,0,0,0.8)] backdrop-blur-md sm:p-7"
         >
           <div className={`pointer-events-none absolute inset-0 transition-all duration-700 ${modeTint[sessionMode]}`} />
           <div className="relative space-y-5">
